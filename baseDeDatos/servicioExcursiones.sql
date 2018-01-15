@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `servicioExcursiones`.`comentariosDestino`(
 ENGINE = InnoDB;
 
 -- ---------------Tabla agregada en actualizacion 2------------------
-CREATE TABLE IF NOT EXISTS `servicioExcursiones`.`imagenesDestinOs`(
+CREATE TABLE IF NOT EXISTS `servicioExcursiones`.`imagenesDestinos`(
 	`idImagen` INT NOT NULL AUTO_INCREMENT,
 	`url` VARCHAR(100) NOT NULL,
 	`idDestino` INT NOT NULL,
@@ -77,12 +77,34 @@ CREATE TABLE IF NOT EXISTS `servicioExcursiones`.`flotilla`(
 )
 ENGINE = InnoDB;
 
+CREATE TABLE IF NOT EXISTS `servicioExcursiones`.`puestos`(
+	`idPuesto` INT NOT NULL AUTO_INCREMENT,
+	`puesto` VARCHAR(20) NOT NULL,
+	PRIMARY KEY(`idPuesto`)
+)
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `servicioExcursiones`.`personal`(
+	`cedula` VARCHAR(10) NOT NULL,
+	`nombre` VARCHAR(50) NOT NULL,
+	`apellidos` VARCHAR(50) NOT NULL,
+	`numeroTelefono` VARCHAR(8) NOT NULL,
+	`correo` VARCHAR(30) NOT NULL,
+	`idPuesto` INT NOT NULL,
+	`cuentaBancaria` VARCHAR(17) NOT NULL,
+
+	PRIMARY KEY(`cedula`),
+	FOREIGN KEY(`idPuesto`) REFERENCES `puestos`(`idPuesto`)
+)
+ENGINE = InnoDB;
+
 -- ------------Se añade columna de lugar de salida--------------
 CREATE TABLE IF NOT EXISTS `servicioExcursiones`.`excursiones`(
 	`idExcursion` INT NOT NULL AUTO_INCREMENT,
 	`idDestino` INT NOT NULL,
 	`fechaSalida` DATE NOT NULL, -- FORMATO: YYYY-MM-DD
 	`lugarSalida` VARCHAR(100),
+	`horaSalida` TIME, -- Formato TBA
 	`cupos` INT NOT NULL,
 	`cuposDisponibles` INT NOT NULL, -- SE QUEDA?--
 	`precio` INT NOT NULL,
@@ -122,8 +144,6 @@ CREATE TABLE IF NOT EXISTS `servicioExcursiones`.`flotillaXexcursion`(
 )
 ENGINE = InnoDB;
 
--- -TABLA DE INFORMACION DE PAGO???--
-
 -- -----------------------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS `servicioExcursiones`.`reservaciones`(
@@ -132,10 +152,13 @@ CREATE TABLE IF NOT EXISTS `servicioExcursiones`.`reservaciones`(
 	`apellidos` VARCHAR(50) NOT NULL,
 	`numeroTelefono` VARCHAR(8) NOT NULL,
 	`camposReservados` INT NOT NULL,
-	`idDestino` INT NOT NULL,
-	`pagado` TINYINT(1) NOT NULL, -- PARA SABER SI REALIZÓ EL O NO EL PAGO DE LA RESERVACION
+	`idExcursion` INT NOT NULL,
+	`primerPago` TINYINT(1) NOT NULL,
+	`fechaPrimerPago` DATE NOT NULL,
+	`pagado` TINYINT(1) NOT NULL, -- PARA SABER SI REALIZÓ EL O NO EL PAGO TOTAL DE LA RESERVACION
 	`fechaLimite` DATE NOT NULL, -- FORMATO YYYY-MM-DD
-	PRIMARY KEY(`idReservacion`)
+	`cancelado` TINYINT(1) NOT NULL, 
+	PRIMARY KEY(`idReservacion`),
+	FOREIGN KEY(`idExcursion`) REFERENCES `excursiones`(`idExcursion`)
 )
 ENGINE = InnoDB;
-
