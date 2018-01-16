@@ -1,0 +1,17 @@
+<div ng-init="vm.start()">
+
+    <div class="col-sm-offset-10 col-sm-2" align="center">
+        <a ng-click="addKids()" type="submit" class="btn btn-default" id="btn_add" ng-href="#!/nuevoSitio">Agregar Destino</a>
+    </div>
+ 
+
+
+  <h2 align="center">Lista de Sitios Turisticos</h2>
+  <div class="list-group-listaInfo" ng-repeat="x in vm.person">
+    <a ng-href="#!/formSitios" class="list-group-item " id="list_info">
+      <p class="list-group-item-text">Nombre: {{x.firstName}} {{x.lastName1}}</p>
+      <p class="list-group-item-text">Escuela: {{x.age}}</p>
+      <p class="list-group-item-text">Pais: {{x.eyeColor}}</p>
+    </a>
+  </div>
+</div>

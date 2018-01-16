@@ -1,0 +1,18 @@
+<div id="galeria" ng-init="vm.start()">
+    <div class="row">
+        <div class="column" ng-repeat="x in vm.pics">
+            <div class="imagebox" id="{{x}}">
+                <a href="#hola">
+                    <img  ng-src="{{x}}" alt="" class="image" class="category-banner">
+                    <span class="imagebox-desc">holi</span>
+                    <a ng-click="vm.deletePic()" type="button" class="btn btn-default btn_acept"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                </a>
+            </div>
+        </div>
+        <div class="column" id="columnaPic"></div>
+
+    </div>
+    <input type="file" id="files" name="files[]" />
+    <br />
+    
+</div>
