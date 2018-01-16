@@ -50,6 +50,41 @@ angular
         controller: 'formReporteCtrl',
         controllerAs: 'vm'
       })
+      .when('/galeria', {
+        templateUrl: 'views/galeria.html',
+        controller: 'galeriaCtrl',
+        controllerAs: 'vm'
+      })
+      .when('/listaSitios', {
+        templateUrl: 'views/listaSitios.html',
+        controller: 'listaSitiosCtrl',
+        controllerAs: 'vm'
+      })
+      .when('/listaTour', {
+        templateUrl: 'views/listaTour.html',
+        controller: 'listaTourCtrl',
+        controllerAs: 'vm'
+      })
+      .when('/listaFlotilla', {
+        templateUrl: 'views/listaFlotilla.html',
+        controller: 'listaFlotillaCtrl',
+        controllerAs: 'vm'
+      })
+      .when('/nuevaFlotilla', {
+        templateUrl: 'views/nuevaFlotilla.html',
+        controller: 'nuevaFlotillaCtrl',
+        controllerAs: 'vm'
+      })
+      .when('/nuevoSitio', {
+        templateUrl: 'views/nuevoSitio.html',
+        controller: 'nuevoSitioCtrl',
+        controllerAs: 'vm'
+      })
+      .when('/nuevoTour', {
+        templateUrl: 'views/nuevoTour.html',
+        controller: 'nuevoTourCtrl',
+        controllerAs: 'vm'
+      })
       .otherwise({
         redirectTo: '/'
       });

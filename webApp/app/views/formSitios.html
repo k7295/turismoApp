@@ -12,6 +12,10 @@
 
     </div>
     <div class="form-group">
+            <label for="selectCategoria">Categoria</label>
+            <select class="form-control" id="selectCategoria" ng-model="selectCategoria" ng-options="x for x in vm.categorias" ng-disabled="vm.edit"></select>
+        </div>
+    <div class="form-group">
         <label for="selectGuia">Guia Turistica</label>
         <select class="form-control" id="selectGuia" ng-model="selectGuia" ng-options="x for x in vm.choferes" ng-disabled="vm.edit"></select>
     </div>
@@ -111,17 +115,11 @@
 
         </div>
     </div>
-    <div class="form-group">
-        <label for="idSalida">Imagenes del Lugar</label>
-        <input type="file" ng-file-select="onFileSelect($files)" ng-model="imageSrc">
-        <img ng-src="{{imageSrc}}" />
-    </div>
-
 </form>
 
 <div class="row grupoBotones">
         <div class="col-sm-offset-1 col-sm-10" align="center">
-            <a type="button" class="btn btn-default btn_back" ng-show="vm.edit">Atras</a>
+            <a type="button" ng-href="#!/listaSitios" class="btn btn-default btn_back" ng-show="vm.edit">Atras</a>
             <a ng-click="vm.updateSitiosForm()" type="button" class="btn btn-default btn_upd" ng-show="vm.edit">Modificar Datos</a>
             <a ng-click="vm.cancelUpdate()" type="button" class="btn btn-default btn_cancel" ng-show="vm.btnAcceptCancel">Cancelar</a>
             <a ng-click="vm.acceptUpdate()" type="button" class="btn btn-default btn_acept" ng-show="vm.btnAcceptCancel">Aceptar</a>

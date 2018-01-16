@@ -1,0 +1,57 @@
+<form role="form" id="form_AddFlotillas" ng-init="vm.start()">
+        <h2 align="center">Datos de Buses</h2>
+    
+        <div class="form-group">
+            <label for="idFlotilla">Número de Flotilla</label>
+            <input type="text" class="form-control" id="idFlotilla">
+        </div>
+    
+        <div class="form-group">
+            <label for="selectMarca">Marca del Vehiculo</label>
+            <select class="form-control" id="selectMarca" ng-model="selectMarca" ng-options="x for x in vm.marcaBus" ></select>
+        </div>
+        <div class="form-group">
+            <label for="idCantAsientos">Cantidad de asientos</label>
+            <input type="number" class="form-control" id="idCantAsientos" >
+        </div>
+    
+        <div class="form-group">
+    
+            <div class="wrapper" id="wrapper">
+    
+                <div class="form-check">
+                    <label>
+                        <input type="checkbox" name="check" >
+                        <span class="label-text">Transporte Disponible</span>
+                    </label>
+                </div>
+    
+            </div>
+        </div>
+    
+        <div class="form-group">
+            <label for="idFlotilla">Servicios Disponibles</label>
+    
+            <div class="wrapper" id="wrapper" ng-repeat="x in vm.servicios">
+    
+                <div class="form-check">
+                    <label>
+                        <input type="checkbox" name="check" >
+                        <span class="label-text">{{x}}</span>
+                    </label>
+                </div>
+    
+            </div>
+        </div>
+    
+    
+    
+    </form>
+    
+    <div class="row grupoBotones">
+        <div class="col-sm-offset-1 col-sm-10" align="center">
+            <a type="button" class="btn btn-default btn_back" ng-href="#!/listaFlotilla">Atras</a>
+            <a ng-click="vm.accept()" type="button" class="btn btn-default btn_acept" >Aceptar</a>
+    
+        </div>
+    </div>

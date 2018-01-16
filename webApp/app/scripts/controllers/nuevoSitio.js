@@ -8,12 +8,11 @@
  * Controller of the webAppApp
  */
 angular.module('webAppApp')
-    .controller('formSitiosCtrl', function ($scope) {
+    .controller('nuevoSitioCtrl', function ($scope) {
         var vm = this;
 
         vm.start = start;
-        vm.updateSitiosForm = updateSitiosForm;
-        vm.cancelUpdate = cancelUpdate;
+
         //vm.acceptUpdate = acceptUpdate;
 
 
@@ -28,15 +27,7 @@ angular.module('webAppApp')
             console.log("entro a strart");
         }
 
-        function updateSitiosForm() {
-            vm.edit = false;
-            vm.btnAcceptCancel = !vm.edit;
-        }
 
-        function cancelUpdate() {
-            vm.edit = true;
-            vm.btnAcceptCancel = !this.edit;
-        }
 
         
         
