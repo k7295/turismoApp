@@ -71,9 +71,11 @@ CREATE TABLE IF NOT EXISTS `servicioExcursiones`.`flotilla`(
 	`idTipoVehiculo` INT NOT NULL,
 	`campos` INT NOT NULL,
 	`enMantenimiento` TINYINT(1), -- VALOR BOOLEANO PARA SABER SI PUEDE USARSE O NO
+	`chofer` VARCHAR(10) NOT NULL,
 	PRIMARY KEY(`idVehiculo`),
 	FOREIGN KEY(`idMarca`) REFERENCES `marcasVehiculos`(`idMarca`),
-	FOREIGN KEY(`idTipoVehiculo`) REFERENCES `tipoVehiculos`(`idTipoVehiculo`)
+	FOREIGN KEY(`idTipoVehiculo`) REFERENCES `tipoVehiculos`(`idTipoVehiculo`),
+	FOREIGN KEY(`chofer`) REFERENCES `personal`(`cedula`)
 )
 ENGINE = InnoDB;
 
@@ -92,7 +94,6 @@ CREATE TABLE IF NOT EXISTS `servicioExcursiones`.`personal`(
 	`correo` VARCHAR(30) NOT NULL,
 	`idPuesto` INT NOT NULL,
 	`cuentaBancaria` VARCHAR(17) NOT NULL,
-
 	PRIMARY KEY(`cedula`),
 	FOREIGN KEY(`idPuesto`) REFERENCES `puestos`(`idPuesto`)
 )
@@ -108,8 +109,10 @@ CREATE TABLE IF NOT EXISTS `servicioExcursiones`.`excursiones`(
 	`cupos` INT NOT NULL,
 	`cuposDisponibles` INT NOT NULL, -- SE QUEDA?--
 	`precio` INT NOT NULL,
+	`guia` VARCHAR(10) NOT NULL,
 	PRIMARY KEY(`idExcursion`),
-	FOREIGN KEY(`idDestino`) REFERENCES `destinosTuristicos`(`idDestino`)
+	FOREIGN KEY(`idDestino`) REFERENCES `destinosTuristicos`(`idDestino`),
+	FOREIGN KEY(`guia`) REFERENCES `personal`(`cedula`)
 )
 ENGINE = InnoDB;
 
@@ -118,6 +121,16 @@ CREATE TABLE IF NOT EXISTS `servicioExcursiones`.`servicios`(
 	`idServicio` INT NOT NULL AUTO_INCREMENT,
 	`servicio` VARCHAR(100) NOT NULL,
 	PRIMARY KEY(`idServicio`)
+)
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `servicioExcursiones`.`servicioXvehiculo`(
+	`idServicioVehiculo` INT NOT NULL AUTO_INCREMENT,
+	`idVehiculo` VARCHAR(6) NOT NULL,
+	`idServicio` INT NOT NULL,
+	PRIMARY KEY(`idServicioVehiculo`),
+	FOREIGN KEY(`idVehiculo`) REFERENCES `flotilla`(`idVehiculo`),
+	FOREIGN KEY(`idServicio`) REFERENCES `servicios`(`idServicio`)
 )
 ENGINE = InnoDB;
 
