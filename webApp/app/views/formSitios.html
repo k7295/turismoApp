@@ -1,0 +1,130 @@
+<form role="form" id="form_Sitios" ng-init="vm.start()">
+    <h2 align="center">Informacion de Sitio Turistico</h2>
+
+    <div class="form-group">
+        <label for="idNombre">Nombre</label>
+        <input type="text" class="form-control" id="idNombre" ng-disabled="vm.edit">
+    </div>
+
+    <div class="form-group">
+        <label for="idDireccion">Dirrecion del lugar</label>
+        <input type="text" class="form-control" id="idDireccion" ng-disabled="vm.edit">
+
+    </div>
+    <div class="form-group">
+        <label for="selectGuia">Guia Turistica</label>
+        <select class="form-control" id="selectGuia" ng-model="selectGuia" ng-options="x for x in vm.choferes" ng-disabled="vm.edit"></select>
+    </div>
+    <div class="form-group">
+        <label for="example-tel-input" class="col-2 col-form-label">Contacto(Guia)</label>
+        <div class="col-10">
+            <input class="form-control" type="tel" value="1-(555)-555-5555" id="example-tel-input" ng-disabled="vm.edit">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="idCantAsientos">Cantidad de campos</label>
+        <input type="number" class="form-control" id="idCantAsientos" ng-disabled="vm.edit">
+    </div>
+
+    <div class="form-group">
+        <label for="example-datetime-local-input" class="col-2 col-form-label">Fecha y Hora de Salida</label>
+        <div class="col-10">
+            <input class="form-control" type="datetime-local" value="2011-08-19T13:45:00" id="example-datetime-local-input" ng-disabled="vm.edit">
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label for="idPrecios">Precios($)</label>
+        <div class="row">
+            <div class="col-md-4">
+                <label for="precioNino">Nino</label>
+                <input type="number" class="form-control " id="precioNino" placeholder="$" ng-disabled="vm.edit">
+
+            </div>
+            <div class="col-md-4">
+                <label for="precioAdultos">Adultos</label>
+                <input type="number" class="form-control " id="precioAdultos" placeholder="$" ng-disabled="vm.edit">
+
+            </div>
+            <div class="col-md-4">
+                <label for="precioAdultosMay">Adultos Mayores(65+)</label>
+                <input type="number" class="form-control " id="precioAdultosMay" placeholder="$" ng-disabled="vm.edit">
+
+            </div>
+        </div>
+
+    </div>
+
+    
+
+    <div class="form-group">
+        <label for="idSalida">Lugar de Salida</label>
+        <input type="text" class="form-control" id="idSalida" ng-disabled="vm.edit">
+    </div>
+
+    <div class="form-group">
+        <label for="idSalidaExtra">Lugar de Salida Extra (opcionales)</label>
+        <input type="text" class="form-control" id="idSalidaExtra1" ng-disabled="vm.edit">
+        <input type="text" class="form-control" id="idSalidaExtra2" ng-disabled="vm.edit">
+    </div>
+
+    <div class="form-group">
+        <label for="idAlimentos">Alimentos Incluidos</label>
+
+        <div class="wrapper" id="wrapper">
+
+            <div class="row">
+                <div class="col-md-3">
+                    <label>
+                        <input type="checkbox" name="check" ng-disabled="vm.edit" ng-model="meriendaChecked">
+                        <span class="label-text">Meriendas</span>
+                    </label>
+                    <input type="number" class="form-control " id="precioMerienda" placeholder="$" ng-show="meriendaChecked">
+
+                </div>
+                <div class="col-md-3">
+                    <label>
+                        <input type="checkbox" name="check" ng-disabled="vm.edit" ng-model="desayunoChecked">
+                        <span class="label-text">Desayuno</span>
+                    </label>
+                    <input type="number" class="form-control " id="precioDey" placeholder="$" ng-show="desayunoChecked">
+
+                </div>
+                <div class="col-md-3">
+                    <label>
+                        <input type="checkbox" name="check" ng-disabled="vm.edit" ng-model="almuerzoChecked">
+                        <span class="label-text">Almuerzo</span>
+                    </label>
+                    <input type="number" class="form-control " id="precioAlm" placeholder="$" ng-show="almuerzoChecked">
+
+                </div>
+                <div class="col-md-3">
+                    <label>
+                        <input type="checkbox" name="check" ng-disabled="vm.edit" ng-model="cenaChecked">
+                        <span class="label-text">Cena</span>
+                    </label>
+                    <input type="number" class="form-control " id="precioCena" placeholder="$" ng-show="cenaChecked">
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="idSalida">Imagenes del Lugar</label>
+        <input type="file" ng-file-select="onFileSelect($files)" ng-model="imageSrc">
+        <img ng-src="{{imageSrc}}" />
+    </div>
+
+</form>
+
+<div class="row grupoBotones">
+        <div class="col-sm-offset-1 col-sm-10" align="center">
+            <a type="button" class="btn btn-default btn_back" ng-show="vm.edit">Atras</a>
+            <a ng-click="vm.updateSitiosForm()" type="button" class="btn btn-default btn_upd" ng-show="vm.edit">Modificar Datos</a>
+            <a ng-click="vm.cancelUpdate()" type="button" class="btn btn-default btn_cancel" ng-show="vm.btnAcceptCancel">Cancelar</a>
+            <a ng-click="vm.acceptUpdate()" type="button" class="btn btn-default btn_acept" ng-show="vm.btnAcceptCancel">Aceptar</a>
+    
+        </div>
+    </div>
