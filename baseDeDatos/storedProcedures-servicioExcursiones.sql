@@ -903,7 +903,34 @@ BEGIN
 		 marcasVehiculos m ON(v.idMarca=m.idMarca) INNER JOIN
 		 personal p ON(p.cedula=v.chofer) INNER JOIN
 		 tipoVehiculos t ON(t.idTipoVehiculo=v.idTipoVehiculo)
-	WHERE v.;
+	WHERE v.idVehiculo=pPlaca;
 END$$
 DELIMITER ;
--- falta: flotillaXescursion reservaciones cancelarReservacion
+
+-- falta: flotillaXexcursion reservaciones cancelarReservacion
+
+DELIMITER $$
+USE `servicioExcursiones`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `uspInsertarVehiculoXExcursion`(
+	pPlaca VARCHAR(6),
+	pIdExcursion INT
+)
+BEGIN
+	DECLARE msgError CONDITION FOR SQLSTATE '22012';
+	DECLARE CONTINUE HANDLER FOR msgError
+	RESIGNAL SET MESSAGE_TEXT = 'Vehiculo ya asignado a la excursion';
+
+	IF NOT EXISTS(
+			SELECT fe.idFxE
+			FROM flotillaXexcursion fe
+			WHERE fe.idVehiculo=pPlaca AND
+				  fe.idExcursion=pIdExcursion
+		)
+		THEN
+			INSERT INTO flotillaXexcursion(idExcursion,idVehiculo) 
+			VALUES(pIdExcursion,pPlaca);
+	ELSE
+		SIGNAL msgError;
+	END IF;
+END$$
+DELIMITER ;

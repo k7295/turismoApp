@@ -90,7 +90,7 @@ CREATE TABLE IF NOT EXISTS `servicioExcursiones`.`personal`(
 	`cuentaBancaria` VARCHAR(17) NOT NULL,
 	`idBanco` INT NOT NULL,
 	PRIMARY KEY(`cedula`),
-	FOREIGN KEY(`idPuesto`) REFERENCES `puestos`(`idPuesto`)
+	FOREIGN KEY(`idPuesto`) REFERENCES `puestos`(`idPuesto`),
 	FOREIGN KEY(`idBanco`) REFERENCES `bancos`(`idBanco`)
 )
 ENGINE = InnoDB;
