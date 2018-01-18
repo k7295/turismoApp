@@ -1,0 +1,14 @@
+<div ng-controller="listaVillaCtrl">
+        <H2 align="center">Villas o Cabinas Disponibles</H2>
+        <div class="row">
+          <div class="column" ng-repeat="x in vm.pics">
+            <div class="imagebox" id="{{x}}">
+              <a href="#!/villas#myCarousel">
+                <img ng-src="{{x}}" alt="" class="image" class="category-banner">
+                <span class="imagebox-desc">holi</span>
+              </a>
+            </div>
+          </div>
+      
+        </div>
+      </div>

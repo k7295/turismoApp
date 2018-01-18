@@ -1,0 +1,242 @@
+
+body {
+  padding: 0;
+  background-color: #D6DED5;
+}
+
+.containerInfo{
+  margin: 5%;
+  border-radius: 10px;
+  background-color: white;
+}
+
+.infoTour{
+  margin: 5%;
+  font-family: 'Quicksand', sans-serif;
+
+}
+
+h2{
+  font-family: 'Quicksand', sans-serif;
+font-size: 40px;  
+}
+/* Custom page header */
+.header {
+  border-bottom: 1px solid #e5e5e5;
+  margin-bottom: 10px;
+  background-color: black;
+}
+
+
+/* Custom page footer */
+.footer {
+  padding-top: 19px;
+  color: white;
+  border-top: 1px solid #e5e5e5;
+  background-color: black
+}
+
+/*............................................................................*/
+/* costum de los botones menu*/
+/*............................................................................*/
+.snip1489 {
+  position: relative;
+  font-size: 40px;
+  color: white;
+  width: 85px;
+  margin: 40px;
+  margin-top: 15px;
+  height: 85px;
+  line-height: 80px;
+  display: inline-block;
+  text-align: center;
+  -webkit-perspective: 50em;
+  perspective: 50em;
+  text-decoration: none;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.snip1489:after {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border: 2px solid white;
+  content: '';
+  z-index: -1;
+  border-radius: 50%;
+}
+.snip1489:before {
+  color: white;
+}
+.snip1489:before,
+.snip1489:after {
+  -webkit-transition: all 0.45s ease-in-out;
+  transition: all 0.45s ease-in-out;
+}
+.snip1489:hover,
+.snip1489:active,
+.snip1489.hover {
+  color: white;
+}
+.snip1489:hover:after,
+.snip1489:active:after,
+.snip1489.hover:after {
+  border-color: transparent #51F544;
+  -webkit-transform: rotate(360deg);
+  transform: rotate(360deg);
+}
+
+.navIcon-element{
+  text-align: center;   
+}
+
+.navIcon-element p{
+  font-family: 'Open Sans Condensed', sans-serif;
+  font-size: 18px;
+  width: 94px;
+}
+/*............................................................................*/
+/* galeria de imgenes*/
+/*............................................................................*/
+.row {
+  display: -ms-flexbox; /* IE10 */
+  display: flex;
+  -ms-flex-wrap: wrap; /* IE10 */
+  flex-wrap: wrap;
+  padding: 0 4px;
+  margin-top: 10px;
+}
+
+/* Create four equal columns that sits next to each other */
+.column {
+  margin: 5px;
+  -ms-flex: 30%; /* IE10 */
+  flex: 30%;
+  max-width: 30%;
+  padding: 0 4px;
+}
+
+.column img {
+  margin-top: 8px;
+  vertical-align: middle;
+}
+
+/* Responsive layout - makes a two column-layout instead of four columns */
+@media (max-width: 800px) {
+  .column {
+      -ms-flex: 40%;
+      flex: 40%;
+      max-width: 40%;
+  }
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media (max-width: 600px) {
+  .column {
+      -ms-flex: 100%;
+      flex: 100%;
+      max-width: 100%;
+  }
+}
+
+
+.imagebox {
+  padding: 0px;
+  position: relative;
+  text-align: center;
+  width: 100%;
+}
+
+.imagebox img {
+  opacity: 1;
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: .5s ease;
+  backface-visibility: hidden;
+  border-radius: 12px;
+}
+
+.imagebox .imagebox-desc {
+  bottom: 0px;
+  color: white;
+  font-size: 1.2em;
+  transition: .5s ease;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.imagebox:hover img {
+  opacity: 0.7;
+}
+
+.imagebox:hover .imagebox-desc {
+  opacity: 1.5;
+}
+
+/*............................................................................*/
+/*Carousel*/
+/*............................................................................*/
+.carousel-inner > .item > img,
+.carousel-inner > .item > a > img {
+    width: 70%;
+    margin: auto;
+}
+
+/*............................................................................*/
+/*informacioTour*/
+/*............................................................................*/
+.infoTour h2{
+  font-family: 'Montserrat', sans-serif;
+  font-size: 30px;
+  text-align: center;
+}
+.infoTour label{
+  font-family: 'Open Sans Condensed', sans-serif;
+  font-size: 20px;
+  text-align: center;
+}
+/*............................................................................*/
+/*botones*/
+/*............................................................................*/
+.btn-default{
+  margin: 10px;
+  background-color: lightgray;
+  border-radius: 10px;
+  border: 5px solid #54aaaa;
+  font-family: 'Quattrocento Sans', sans-serif;
+  font-size: 20px;
+  color: rgb(5, 128, 139); 
+}
+
+.btn-default:hover{
+  border-color: rgb(5, 128, 139); 
+  color: rgb(5, 128, 139); 
+}
+
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: 1200px) {
+  .container {
+    max-width: 1170px;
+  }
+
+  /* Remove the padding we set earlier */
+  .header,
+  .marketing,
+  .footer {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  /* Space out the masthead */
+  .header {
+    margin-bottom: 30px;
+  }
+  
+}

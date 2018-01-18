@@ -1,0 +1,55 @@
+<div ng-init="vm.start()" ng-controller="tourCtrl">
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators"></ol>
+
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner"></div>
+
+        <!-- Left and right controls -->
+        <a class="left carousel-control" href="#!/tour#myCarousel" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#!/tour#myCarousel" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+    <div class="containerInfo">
+        <div class="infoTour">
+                <h2>Lugar X</h2>
+                
+                    <label> Descripcion</label>
+                    <p id="descripcionTour">ja</p>
+                    <label>Categoria</label>
+                    <p id="categoria">ja</p>
+                    <label>Fecha de Salida</label>
+                    <p id="fechaSalida">FechaSalida</p>
+                    <label>Puntos de salida</label>
+                    <ul id="ptosSalida" class="list-group" ng-repeat="x in vm.dir">
+                        <li class="list-group-item">{{x}}</li>
+                    </ul>
+                    <label>Precios</label>
+                    <ul id="precios" class="list-group">
+                        <li class="list-group-item" id="precioNino">
+                            <p>Ninos</p>$$$</li>
+                        <li class="list-group-item" id="precioAdulto">
+                            <p>Adultos</p>$$$</li>
+                        <li class="list-group-item" id="precioAdultoMayor">
+                            <p>Adultos Mayores</p>$$$</li>
+                    </ul>
+                    <label>Servicios incluidos</label>
+                    <ul class="list-group" ng-repeat="x in vm.servicios">
+                        <li class="list-group-item">{{x}}</li>
+                    </ul>
+                   
+                    <div align="right">
+                            <a type="button" class="btn btn-default">Reservar</a>
+                        </div>
+                   
+        </div>
+        
+    </div>
+    
+
+</div>

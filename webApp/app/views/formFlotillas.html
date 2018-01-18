@@ -1,0 +1,59 @@
+<form role="form" id="form_Flotillas" ng-init="vm.start()">
+    <h2 align="center">Información de Buses</h2>
+
+    <div class="form-group">
+        <label for="idFlotilla">Número de Flotilla</label>
+        <input type="text" class="form-control" id="idFlotilla" ng-disabled="vm.edit">
+    </div>
+
+    <div class="form-group">
+        <label for="selectMarca">Marca del Vehiculo</label>
+        <select class="form-control" id="selectMarca" ng-model="selectMarca" ng-options="x for x in vm.marcaBus" ng-disabled="vm.edit"></select>
+    </div>
+    <div class="form-group">
+        <label for="idCantAsientos">Cantidad de asientos</label>
+        <input type="number" class="form-control" id="idCantAsientos" ng-disabled="vm.edit">
+    </div>
+
+    <div class="form-group">
+
+        <div class="wrapper" id="wrapper">
+
+            <div class="form-check">
+                <label>
+                    <input type="checkbox" name="check" ng-disabled="vm.edit">
+                    <span class="label-text">Transporte Disponible</span>
+                </label>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="idFlotilla">Servicios Disponibles</label>
+
+        <div class="wrapper" id="wrapper" ng-repeat="x in vm.servicios">
+
+            <div class="form-check">
+                <label>
+                    <input type="checkbox" name="check" ng-disabled="vm.edit">
+                    <span class="label-text">{{x}}</span>
+                </label>
+            </div>
+
+        </div>
+    </div>
+
+
+
+</form>
+
+<div class="row grupoBotones">
+    <div class="col-sm-offset-1 col-sm-10" align="center">
+        <a type="button" class="btn btn-default btn_back" ng-href="#!/listaFlotilla" ng-show="vm.edit">Atras</a>
+        <a ng-click="vm.updatebusForm()" type="button" class="btn btn-default btn_upd" ng-show="vm.edit">Modificar Datos</a>
+        <a ng-click="vm.cancelUpdate()" type="button" class="btn btn-default btn_cancel" ng-show="vm.btnAcceptCancel">Cancelar</a>
+        <a ng-click="vm.acceptUpdate()" type="button" class="btn btn-default btn_acept" ng-show="vm.btnAcceptCancel">Aceptar</a>
+
+    </div>
+</div>
