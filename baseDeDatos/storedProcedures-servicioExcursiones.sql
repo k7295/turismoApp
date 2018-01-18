@@ -885,9 +885,25 @@ BEGIN
 		)
 		THEN
 			INSERT INTO flotilla(idVehiculo,idMarca,idTipoVehiculo,campos,enMantenimiento,chofer) 
-			VALUES(pPlaca,@marca,@tipo,pCampos,pChofer);
+			VALUES(pPlaca,@marca,@tipo,pCampos,0,pChofer);
 	ELSE
 		SIGNAL msgError;
 	END IF;
 END$$
 DELIMITER ;
+
+DELIMITER $$
+USE `servicioExcursiones`$$
+CREATE DEFINER =`root`@`localhost` PROCEDURE `uspVerVehiculo`(
+	pPlaca VARCHAR(6)
+)
+BEGIN
+	SELECT v.idVehiculo,m.marca,t.tipoVehiculo,v.campos,v.enMantenimiento,(p.nombre+p.apellidos)
+	FROM flotilla v INNER JOIN
+		 marcasVehiculos m ON(v.idMarca=m.idMarca) INNER JOIN
+		 personal p ON(p.cedula=v.chofer) INNER JOIN
+		 tipoVehiculos t ON(t.idTipoVehiculo=v.idTipoVehiculo)
+	WHERE v.;
+END$$
+DELIMITER ;
+-- falta: flotillaXescursion reservaciones cancelarReservacion

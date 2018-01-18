@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `servicioExcursiones`.`comentariosDestino`(
 	`idDestino` INT NOT NULL,
 	`persona` VARCHAR(150),
 	`comentario` VARCHAR(280),
-	PRIMARY KEY(`idCaracteristica`),
+	PRIMARY KEY(`idComentario`),
 	FOREIGN KEY(`idDestino`) REFERENCES `destinosTuristicos`(`idDestino`)
 )
 ENGINE = InnoDB;
