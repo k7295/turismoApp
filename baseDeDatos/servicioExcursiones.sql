@@ -18,6 +18,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `servicioExcursiones`.`destinosTuristicos`(
 	`idDestino` INT NOT NULL AUTO_INCREMENT,
 	`nombreDestino` VARCHAR(100) NOT NULL,
+	`lugar` VARCHAR(100) NOT NULL,
 	`idCategoria` INT NOT NULL,
 	`descripcion` VARCHAR(250) NOT NULL,
 	PRIMARY KEY(`idDestino`),
@@ -29,10 +30,10 @@ ENGINE = InnoDB;
 -- ---Se cambia de nombre la columna caracteristica por comentario-----
 -- --Se añade la columna persona para saber quien hizo el comentario---
 CREATE TABLE IF NOT EXISTS `servicioExcursiones`.`comentariosDestino`(
-	`idCaracteristica` INT NOT NULL AUTO_INCREMENT,
+	`idComentario` INT NOT NULL AUTO_INCREMENT,
 	`idDestino` INT NOT NULL,
 	`persona` VARCHAR(150),
-	`comentario` VARCHAR(150),
+	`comentario` VARCHAR(280),
 	PRIMARY KEY(`idCaracteristica`),
 	FOREIGN KEY(`idDestino`) REFERENCES `destinosTuristicos`(`idDestino`)
 )
@@ -41,7 +42,7 @@ ENGINE = InnoDB;
 -- ---------------Tabla agregada en actualizacion 2------------------
 CREATE TABLE IF NOT EXISTS `servicioExcursiones`.`imagenesDestinos`(
 	`idImagen` INT NOT NULL AUTO_INCREMENT,
-	`url` VARCHAR(100) NOT NULL,
+	`url` VARCHAR(300) NOT NULL,
 	`idDestino` INT NOT NULL,
 	PRIMARY KEY(`idImagen`),
 	FOREIGN KEY(`idDestino`) REFERENCES `destinosTuristicos`(`idDestino`)
@@ -65,17 +66,10 @@ CREATE TABLE IF NOT EXISTS `servicioExcursiones`.`tipoVehiculos`(
 ENGINE = InnoDB;
 -- ------------------------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS `servicioExcursiones`.`flotilla`(
-	`idVehiculo` VARCHAR(6) NOT NULL, -- LA PLACA DE LA BUSETA/BUS
-	`idMarca` INT NOT NULL,
-	`idTipoVehiculo` INT NOT NULL,
-	`campos` INT NOT NULL,
-	`enMantenimiento` TINYINT(1), -- VALOR BOOLEANO PARA SABER SI PUEDE USARSE O NO
-	`chofer` VARCHAR(10) NOT NULL,
-	PRIMARY KEY(`idVehiculo`),
-	FOREIGN KEY(`idMarca`) REFERENCES `marcasVehiculos`(`idMarca`),
-	FOREIGN KEY(`idTipoVehiculo`) REFERENCES `tipoVehiculos`(`idTipoVehiculo`),
-	FOREIGN KEY(`chofer`) REFERENCES `personal`(`cedula`)
+CREATE TABLE IF NOT EXISTS `servicioExcursiones`.`bancos`(
+	`idBanco` INT NOT NULL AUTO_INCREMENT,
+	`banco` VARCHAR(20) NOT NULL,
+	PRIMARY KEY(`idBanco`)
 )
 ENGINE = InnoDB;
 
@@ -94,8 +88,25 @@ CREATE TABLE IF NOT EXISTS `servicioExcursiones`.`personal`(
 	`correo` VARCHAR(30) NOT NULL,
 	`idPuesto` INT NOT NULL,
 	`cuentaBancaria` VARCHAR(17) NOT NULL,
+	`idBanco` INT NOT NULL,
 	PRIMARY KEY(`cedula`),
 	FOREIGN KEY(`idPuesto`) REFERENCES `puestos`(`idPuesto`)
+	FOREIGN KEY(`idBanco`) REFERENCES `bancos`(`idBanco`)
+)
+ENGINE = InnoDB;
+
+
+CREATE TABLE IF NOT EXISTS `servicioExcursiones`.`flotilla`(
+	`idVehiculo` VARCHAR(6) NOT NULL, -- LA PLACA DE LA BUSETA/BUS
+	`idMarca` INT NOT NULL,
+	`idTipoVehiculo` INT NOT NULL,
+	`campos` INT NOT NULL,
+	`enMantenimiento` TINYINT(1), -- VALOR BOOLEANO PARA SABER SI PUEDE USARSE O NO
+	`chofer` VARCHAR(10) NOT NULL,
+	PRIMARY KEY(`idVehiculo`),
+	FOREIGN KEY(`idMarca`) REFERENCES `marcasVehiculos`(`idMarca`),
+	FOREIGN KEY(`idTipoVehiculo`) REFERENCES `tipoVehiculos`(`idTipoVehiculo`),
+	FOREIGN KEY(`chofer`) REFERENCES `personal`(`cedula`)
 )
 ENGINE = InnoDB;
 
@@ -108,7 +119,9 @@ CREATE TABLE IF NOT EXISTS `servicioExcursiones`.`excursiones`(
 	`horaSalida` TIME, -- Formato TBA
 	`cupos` INT NOT NULL,
 	`cuposDisponibles` INT NOT NULL, -- SE QUEDA?--
-	`precio` INT NOT NULL,
+	`precioAdulto` INT NOT NULL,
+	`precioAdultoM` INT NOT NULL,
+	`precioNino` INT NOT NULL,
 	`guia` VARCHAR(10) NOT NULL,
 	PRIMARY KEY(`idExcursion`),
 	FOREIGN KEY(`idDestino`) REFERENCES `destinosTuristicos`(`idDestino`),
@@ -138,10 +151,10 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `servicioExcursiones`.`serviciosIncluidos`(
 	`idServicioIncluido` INT NOT NULL AUTO_INCREMENT,
 	`idServicio` INT NOT NULL,
-	`idExcursion` INT NOT NULL,
+	`idDestino` INT NOT NULL,
 	PRIMARY KEY(`idServicioIncluido`),
 	FOREIGN KEY(`idServicio`) REFERENCES `servicios`(`idServicio`),
-	FOREIGN KEY(`idExcursion`) REFERENCES `excursiones`(`idExcursion`)
+	FOREIGN KEY(`idDestino`) REFERENCES `destinosTuristicos`(`idDestino`)
 )
 ENGINE = InnoDB;
 
