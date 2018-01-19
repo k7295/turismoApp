@@ -45,9 +45,9 @@ angular
         controller: 'formTourCtrl',
         controllerAs: 'vm'
       })
-      .when('/formReporte', {
-        templateUrl: 'views/formReporte.html',
-        controller: 'formReporteCtrl',
+      .when('/listaReporte', {
+        templateUrl: 'views/listaReporte.html',
+        controller: 'listaReporteCtrl',
         controllerAs: 'vm'
       })
       .when('/galeria', {
