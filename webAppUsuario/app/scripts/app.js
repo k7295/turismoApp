@@ -54,6 +54,16 @@ angular
         controller: 'listaVillaCtrl',
         controllerAs: 'vm'
       })
+      .when('/reservar', {
+        templateUrl: 'views/reservar.html',
+        controller: 'reservarCtrl',
+        controllerAs: 'vm'
+      })
+      .when('/cancelar', {
+        templateUrl: 'views/cancelar.html',
+        controller: 'cancelarCtrl',
+        controllerAs: 'vm'
+      })
       .otherwise({
         redirectTo: '/'
       });
