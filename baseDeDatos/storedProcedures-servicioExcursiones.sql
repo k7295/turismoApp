@@ -942,7 +942,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `uspInsertarReservacion`(
 	pCampos INT, pDestino INT, pFPrimerPago DATE, pFechaFinal DATE
 )
 BEGIN
-	INSERT INTO reservaciones(nombre,apellidos,numeroTelefono,camposReservado,idExcursion,primerPago,fechaPrimerPago,pagado,fechaLimite,cancelado) 
+	INSERT INTO reservaciones(nombre,apellidos,numeroTelefono,camposReservados,idExcursion,primerPago,fechaPrimerPago,pagado,fechaLimite,cancelado) 
 	VALUES(pNombre,pApellidos,pNumeroTelefonico,pCampos,pDestino,0,pFPrimerPago,0,pFechaFinal,0);
 	
 	UPDATE `excursiones`
@@ -981,5 +981,42 @@ BEGIN
 	UPDATE `excursiones`
 	SET `cuposDisponibles`=(`cuposDisponibles`+@campos)
 	WHERE `idExcursion`=pIdReservacion;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+USE `servicioExcursiones`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `uspPrimerPagoHecho`(
+	pIdReservacion INT
+)
+BEGIN
+	UPDATE `reservaciones`
+	SET `primerPago`=1
+	WHERE `idReservacion`=pIdReservacion;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+USE `servicioExcursiones`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `uspSegundoPagoHecho`(
+	pIdReservacion INT
+)
+BEGIN
+	UPDATE `reservaciones`
+	SET `pagado`=1
+	WHERE `idReservacion`=pIdReservacion;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+USE `servicioExcursiones`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `uspListarParticipantes`(
+	pIdExcursion INT
+)
+BEGIN
+	SELECT (r.nombre+r.apellidos),r.numeroTelefono,r.camposReservados
+	FROM reservaciones r
+	WHERE r.idExcursion=pIdExcursion AND
+		  r.pagado=1;
 END$$
 DELIMITER ;
