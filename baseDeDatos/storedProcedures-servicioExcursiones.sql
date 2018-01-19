@@ -700,7 +700,7 @@ CREATE DEFINER =`root`@`localhost` PROCEDURE `uspVerIdServicio`(
 BEGIN
 	SELECT s.idServicio INTO pSServicio
 	FROM servicios s
-	WHERE s.servicio=pServicio
+	WHERE s.servicio=pServicio;
 END$$
 DELIMITER ;
 
@@ -781,7 +781,7 @@ BEGIN
 	RESIGNAL SET MESSAGE_TEXT = 'Servicio en el sistema';
 
 	CALL uspVerIdServicio(pServicio,@servicio);
-	CALL uspVerIdDestino(pDestino,@destino)
+	CALL uspVerIdDestino(pDestino,@destino);
 
 	IF NOT EXISTS(
 			SELECT s.idServicioIncluido
@@ -803,7 +803,7 @@ CREATE DEFINER =`root`@`localhost` PROCEDURE `uspVerServiciosXDestino`(
 	pDestino VARCHAR(100)
 )
 BEGIN
-	CALL uspVerIdDestino(pDestino,@destino)
+	CALL uspVerIdDestino(pDestino,@destino);
 
 	SELECT s.idServicioIncluido
 	FROM serviciosIncluidos s
@@ -876,7 +876,7 @@ BEGIN
 	RESIGNAL SET MESSAGE_TEXT = 'Vehiculo en el sistema';
 
 	CALL uspVerIdDestino(pMarca,@marca);
-	CALL uspVerIdTipo(pTipoVehiculo,@tipo)
+	CALL uspVerIdTipo(pTipoVehiculo,@tipo);
 
 	IF NOT EXISTS(
 			SELECT f.idVehiculo
@@ -934,3 +934,52 @@ END$$
 DELIMITER ;
 
 -- falta: reservaciones cancelarReservacion
+
+DELIMITER $$
+USE `servicioExcursiones`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `uspInsertarReservacion`(
+	pNombre VARCHAR(50), pApellidos VARCHAR(50), pNumeroTelefonico VARCHAR(8),
+	pCampos INT, pDestino INT, pFPrimerPago DATE, pFechaFinal DATE
+)
+BEGIN
+	INSERT INTO reservaciones(nombre,apellidos,numeroTelefono,camposReservado,idExcursion,primerPago,fechaPrimerPago,pagado,fechaLimite,cancelado) 
+	VALUES(pNombre,pApellidos,pNumeroTelefonico,pCampos,pDestino,0,pFPrimerPago,0,pFechaFinal,0);
+	
+	UPDATE `excursiones`
+	SET `cuposDisponibles`=(`cuposDisponibles`-pCampos)
+	WHERE `idExcursion`=pDestino;
+
+	SELECT LAST_INSERT_ID();
+END$$
+DELIMITER ;
+
+DELIMITER $$
+USE `servicioExcursiones`$$
+CREATE DEFINER =`root`@`localhost` PROCEDURE `uspVerCamposReservados`(
+	pIdReservacion INT,
+	OUT pSCampos INT
+)
+BEGIN
+	SELECT r.campos INTO pSCampos
+	FROM reservaciones r
+	WHERE r.idReservacion=pIdReservacion;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+USE `servicioExcursiones`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `uspCancelarReservacion`(
+	pIdReservacion INT
+)
+BEGIN
+	UPDATE `reservaciones`
+	SET `cancelado`=1
+	WHERE `idReservacion`=pIdReservacion;
+
+	CALL uspVerCamposReservados(pIdReservacion,@campos);
+
+	UPDATE `excursiones`
+	SET `cuposDisponibles`=(`cuposDisponibles`+@campos)
+	WHERE `idExcursion`=pIdReservacion;
+END$$
+DELIMITER ;
