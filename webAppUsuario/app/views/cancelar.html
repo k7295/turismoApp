@@ -1,0 +1,54 @@
+<div class="col-md-6">
+    <div class="containerInfo" ng-controller="cancelarCtrl">
+
+        <div class="infoTour">
+
+            <form role="form" id="form_Tour" ng-controller="reservarCtrl" ng-init="vm.start()">
+                <h2 align="center">Cancelar Monto</h2>
+
+                <div class="form-group">
+                    <label for="idReservacion">ID Reservacion</label>
+                    <input class="form-control" type="number" id="idReservacion">
+                </div>
+
+                <div class="column" id="columnaPic"></div>
+
+
+                <input type="file" id="files" name="files[]" />
+                <br />
+
+            </form>
+
+            <div class="row grupoBotones">
+                <div class="col-sm-offset-1 col-sm-10" align="center">
+                    <a type="button" class="btn btn-default btn_acept">Enviar</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-6">
+    <div class="containerInfo" ng-controller="cancelarCtrl">
+
+        <div class="infoTour">
+
+            <form role="form" id="form_Tour" ng-controller="reservarCtrl" ng-init="vm.start()">
+                <h2 align="center">Cancelar Reservacion</h2>
+
+                <div class="form-group">
+                    <label for="idReservacion">ID Reservacion que desea cancelar</label>
+                    <input class="form-control" type="number" id="idReservacion">
+                </div>
+
+            </form>
+
+            <div class="row grupoBotones">
+                <div class="col-sm-offset-1 col-sm-10" align="center">
+                    <a type="button" class="btn btn-default btn_acept">Enviar</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

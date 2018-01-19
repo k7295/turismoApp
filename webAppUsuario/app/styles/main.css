@@ -208,7 +208,6 @@ font-size: 40px;
 /*............................................................................*/
 .btn-default{
   margin: 10px;
-  background-color: lightgray;
   border-radius: 10px;
   border: 5px solid #54aaaa;
   font-family: 'Quattrocento Sans', sans-serif;
@@ -220,6 +219,35 @@ font-size: 40px;
   border-color: rgb(5, 128, 139); 
   color: rgb(5, 128, 139); 
 }
+
+.btn_monto{
+  margin: 10px;
+  border-radius: 10px;
+  border: 5px solid #51ee57;
+  font-family: 'Quattrocento Sans', sans-serif;
+  font-size: 20px;
+  color: #51ee57; 
+}
+
+.btn_monto:hover{
+  border-color: rgb(54, 133, 67); 
+  color: rgb(54, 133, 67); 
+}
+
+.btn_cancel{
+  
+  border: 5px solid #F25869;
+  border-radius: 5px;
+  font-family: 'Quattrocento Sans', sans-serif;
+  font-size: 20px;
+  color: #F25869;
+}
+
+.btn_cancel:hover{
+  border: 5px solid #B1404C;
+  color: #B1404C;
+}
+
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 1200px) {
