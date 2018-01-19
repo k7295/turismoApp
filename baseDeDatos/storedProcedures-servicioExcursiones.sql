@@ -907,8 +907,6 @@ BEGIN
 END$$
 DELIMITER ;
 
--- falta: flotillaXexcursion reservaciones cancelarReservacion
-
 DELIMITER $$
 USE `servicioExcursiones`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `uspInsertarVehiculoXExcursion`(
@@ -934,3 +932,5 @@ BEGIN
 	END IF;
 END$$
 DELIMITER ;
+
+-- falta: reservaciones cancelarReservacion
