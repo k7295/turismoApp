@@ -1,0 +1,13 @@
+<div ng-init="vm.start()">
+    
+        <h2 align="center">Lista de Reservaciones</h2>
+        <div class="list-group-listaInfo" ng-repeat="x in vm.person">
+            <a  class="list-group-item " id="list_info">
+                <p class="list-group-item-text">Nombre: {{x.firstName}} {{x.lastName1}}</p>
+                <p class="list-group-item-text">Campos solicitados: {{x.campos}}</p>
+                <p class="list-group-item-text">Tour: {{x.lugar}}</p>
+                <p class="list-group-item-text">Fecha de Salida: {{x.fechaSalida}}</p>
+                <p class="list-group-item-text">Monto Total Cancelado: {{x.cancelarMonto}}</p>
+            </a>
+        </div>
+    </div>

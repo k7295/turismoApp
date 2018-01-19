@@ -16,9 +16,9 @@ angular.module('webAppApp')
         //vm.acceptUpdate = acceptUpdate;
 
 
-        vm.person = [{firstName:"John", lastName:"Doe", age:50, eyeColor:"blue"},
-                     {firstName:"Johni", lastName:"Doe", age:50, eyeColor:"blue"},
-                     {firstName:"Johnito", lastName:"Doe", age:50, eyeColor:"blue"}];
+        vm.person = [{id: 212,firstName:"John", lastName:"Doe",marcaBus:"Hyundai"},
+                     {id: 231,firstName:"Johni", lastName:"Doe",marcaBus:"Hyundai"},
+                     {id: 1312,firstName:"Johnito", lastName:"Doe",marcaBus:"Hyundai"}];
    
         
         function start() {

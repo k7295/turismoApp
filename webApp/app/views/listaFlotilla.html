@@ -9,9 +9,9 @@
             <h2 align="center">Lista de Flotillas</h2>
             <div class="list-group-listaInfo" ng-repeat="x in vm.person">
                 <a ng-href="#!/formFlotillas" class="list-group-item " id="list_info">
-                    <p class="list-group-item-text">Nombre: {{x.firstName}} {{x.lastName1}}</p>
-                    <p class="list-group-item-text">Escuela: {{x.age}}</p>
-                    <p class="list-group-item-text">Pais: {{x.eyeColor}}</p>
+                    <p class="list-group-item-text">Placa: {{x.id}}</p>
+                    <p class="list-group-item-text">Marca de Flotilla: {{x.marcaBus}}</p>
+                    <p class="list-group-item-text">Chofer: {{x.firstName}} {{x.lastName1}}</p>
                 </a>
             </div>
         </div>
