@@ -372,7 +372,7 @@ CREATE DEFINER =`root`@`localhost` PROCEDURE `uspVerIdTipo`(
 )
 BEGIN
 	SELECT t.idTipoVehiculo INTO pSTipo
-	FROM tipoVehiculos m
+	FROM tipoVehiculos t
 	WHERE t.tipoVehiculo=pTipo;
 END$$
 DELIMITER ;
@@ -875,7 +875,7 @@ BEGIN
 	DECLARE CONTINUE HANDLER FOR msgError
 	RESIGNAL SET MESSAGE_TEXT = 'Vehiculo en el sistema';
 
-	CALL uspVerIdDestino(pMarca,@marca);
+	CALL uspVerIdMarca(pMarca,@marca);
 	CALL uspVerIdTipo(pTipoVehiculo,@tipo);
 
 	IF NOT EXISTS(
