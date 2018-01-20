@@ -8,7 +8,7 @@
 
     <div class="form-group">
         <label for="selectMarca">Marca del Vehiculo</label>
-        <select class="form-control" id="selectMarca" ng-model="selectMarca" ng-options="x for x in vm.marcaBus" ng-disabled="vm.edit"></select>
+        <select class="form-control" id="selectMarca" ng-model="selectMarca" ng-options="x in vm.marcaBus" ng-disabled="vm.edit"></select>
     </div>
     <div class="form-group">
         <label for="idCantAsientos">Cantidad de asientos</label>
