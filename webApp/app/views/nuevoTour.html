@@ -88,6 +88,48 @@
             <input type="text" class="form-control" id="idSalidaExtra1" >
             <input type="text" class="form-control" id="idSalidaExtra2" >
         </div>
+        <div class="form-group">
+                <label for="idAlimentos">Alimentos Incluidos</label>
+        
+                <div class="wrapper" id="wrapper">
+        
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>
+                                <input type="checkbox" name="check"  ng-model="meriendaChecked">
+                                <span class="label-text">Meriendas</span>
+                            </label>
+                            <input type="number" class="form-control " id="precioMerienda" placeholder="$" ng-show="meriendaChecked">
+        
+                        </div>
+                        <div class="col-md-3">
+                            <label>
+                                <input type="checkbox" name="check" ng-model="desayunoChecked">
+                                <span class="label-text">Desayuno</span>
+                            </label>
+                            <input type="number" class="form-control " id="precioDey" placeholder="$" ng-show="desayunoChecked">
+        
+                        </div>
+                        <div class="col-md-3">
+                            <label>
+                                <input type="checkbox" name="check" ng-model="almuerzoChecked">
+                                <span class="label-text">Almuerzo</span>
+                            </label>
+                            <input type="number" class="form-control " id="precioAlm" placeholder="$" ng-show="almuerzoChecked">
+        
+                        </div>
+                        <div class="col-md-3">
+                            <label>
+                                <input type="checkbox" name="check"  ng-model="cenaChecked">
+                                <span class="label-text">Cena</span>
+                            </label>
+                            <input type="number" class="form-control " id="precioCena" placeholder="$" ng-show="cenaChecked">
+        
+                        </div>
+                    </div>
+        
+                </div>
+            </div>
 
         <h1 align="left">Informacion Transporte</h1>
         

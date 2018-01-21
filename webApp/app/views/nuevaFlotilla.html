@@ -5,6 +5,10 @@
             <label for="idCedChofer">Cedula del Chofer</label>
             <input type="number" class="form-control" id="idCedChofer" ng-model="vm.flotilla.cedChofer">
         </div>
+        <div class="form-group">
+            <label for="idnombreChofer">Nombre del Chofer</label>
+            <input type="number" class="form-control" id="idnombreChofer" ng-model="vm.flotilla.nombreChofer">
+        </div>
 
         <div class="form-group">
             <label for="idFlotilla">Número de Flotilla</label>
@@ -13,11 +17,11 @@
     
         <div class="form-group">
             <label for="selectMarca">Marca del Vehiculo</label>
-            <select class="form-control" id="selectMarca" ng-model="vm.flotilla.marca" ng-options="x for x in vm.marcaBus" ></select>
+            <select class="form-control" id="selectMarca" ng-model="vm.marca" ng-options="x.marca for x in vm.getMarca" ></select>
         </div>
         <div class="form-group">
             <label for="selectTipoVehiculo">Tipo de Vehiculo</label>
-            <select class="form-control" id="selectTipoVehiculo" ng-model="vm.flotilla.tipoVehiculo" ng-options="x for x in vm.marcaBus" ></select>
+            <select class="form-control" id="selectTipoVehiculo" ng-model="vm.tipoVehiculo" ng-options="x.tipoVehiculo for x in vm.getTipoVehiculo" ></select>
         </div>
         <div class="form-group">
             <label for="idCantAsientos">Cantidad de asientos</label>
@@ -41,13 +45,18 @@
         <div class="form-group">
             <label for="idFlotilla">Servicios Disponibles</label>
     
-            <div class="wrapper" id="wrapper" ng-repeat="x in vm.servicios">
+            <div class="wrapper" id="wrapper" ng-repeat="x in vm.servicios" >
     
                 <div class="form-check">
-                    <label>
-                        <input id="{{$index}}" type="checkbox" name="check" ng-model="vm.flotilla.servicios">
-                        <span class="label-text">{{x}}</span>
-                    </label>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                                <label>
+                                        <input value="{{x}}" type="checkbox" name="check">
+                                        <span class="label-text">{{x}}</span>
+                                    </label>
+                        </li>
+                    </ul>
+                    
                 </div>
     
             </div>
@@ -60,7 +69,6 @@
     <div class="row grupoBotones">
         <div class="col-sm-offset-1 col-sm-10" align="center">
             <a type="button" class="btn btn-default btn_back" ng-href="#!/listaFlotilla">Atras</a>
-            <a ng-click="vm.addflotilla()" type="button" class="btn btn-default btn_acept" >Aceptar</a>
-    
+            <a ng-click="vm.addFlotilla()" type="button" class="btn btn-default btn_acept" >Aceptar</a>
         </div>
     </div>
