@@ -1,126 +1,31 @@
 <form role="form" id="add_Sitios" ng-init="vm.start()">
-        <h2 align="center">Agregar Sitio Turistico</h2>
-    
-        <div class="form-group">
-            <label for="idNombre">Nombre</label>
-            <input type="text" class="form-control" id="idNombre">
-        </div>
-    
-        <div class="form-group">
-            <label for="idDireccion">Dirrecion del lugar</label>
-            <input type="text" class="form-control" id="idDireccion" >
-    
-        </div>
-        <div class="form-group">
-                <label for="selectCategoria">Categoria</label>
-                <select class="form-control" id="selectCategoria" ng-model="selectCategoria" ng-options="x for x in vm.categorias" ></select>
-            </div>
-        <div class="form-group">
-            <label for="selectGuia">Guia Turistica</label>
-            <select class="form-control" id="selectGuia" ng-model="selectGuia" ng-options="x for x in vm.choferes" ></select>
-        </div>
-        <div class="form-group">
-            <label for="example-tel-input" class="col-2 col-form-label">Contacto(Guia)</label>
-            <div class="col-10">
-                <input class="form-control" type="tel" value="1-(555)-555-5555" id="example-tel-input" >
-            </div>
-        </div>
-    
-        <div class="form-group">
-            <label for="idCantAsientos">Cantidad de campos</label>
-            <input type="number" class="form-control" id="idCantAsientos" >
-        </div>
-    
-        <div class="form-group">
-            <label for="example-datetime-local-input" class="col-2 col-form-label">Fecha y Hora de Salida</label>
-            <div class="col-10">
-                <input class="form-control" type="datetime-local" value="2011-08-19T13:45:00" id="example-datetime-local-input" >
-            </div>
-        </div>
-        
-        <div class="form-group">
-            <label for="idPrecios">Precios($)</label>
-            <div class="row">
-                <div class="col-md-4">
-                    <label for="precioNino">Nino</label>
-                    <input type="number" class="form-control " id="precioNino" placeholder="$">
-    
-                </div>
-                <div class="col-md-4">
-                    <label for="precioAdultos">Adultos</label>
-                    <input type="number" class="form-control " id="precioAdultos" placeholder="$" >
-    
-                </div>
-                <div class="col-md-4">
-                    <label for="precioAdultosMay">Adultos Mayores(65+)</label>
-                    <input type="number" class="form-control " id="precioAdultosMay" placeholder="$" >
-    
-                </div>
-            </div>
-    
-        </div>
-    
-        
-    
-        <div class="form-group">
-            <label for="idSalida">Lugar de Salida</label>
-            <input type="text" class="form-control" id="idSalida" >
-        </div>
-    
-        <div class="form-group">
-            <label for="idSalidaExtra">Lugar de Salida Extra (opcionales)</label>
-            <input type="text" class="form-control" id="idSalidaExtra1" >
-            <input type="text" class="form-control" id="idSalidaExtra2">
-        </div>
-    
-        <div class="form-group">
-            <label for="idAlimentos">Alimentos Incluidos</label>
-    
-            <div class="wrapper" id="wrapper">
-    
-                <div class="row">
-                    <div class="col-md-3">
-                        <label>
-                            <input type="checkbox" name="check"  ng-model="meriendaChecked">
-                            <span class="label-text">Meriendas</span>
-                        </label>
-                        <input type="number" class="form-control " id="precioMerienda" placeholder="$" ng-show="meriendaChecked">
-    
-                    </div>
-                    <div class="col-md-3">
-                        <label>
-                            <input type="checkbox" name="check" ng-model="desayunoChecked">
-                            <span class="label-text">Desayuno</span>
-                        </label>
-                        <input type="number" class="form-control " id="precioDey" placeholder="$" ng-show="desayunoChecked">
-    
-                    </div>
-                    <div class="col-md-3">
-                        <label>
-                            <input type="checkbox" name="check" ng-model="almuerzoChecked">
-                            <span class="label-text">Almuerzo</span>
-                        </label>
-                        <input type="number" class="form-control " id="precioAlm" placeholder="$" ng-show="almuerzoChecked">
-    
-                    </div>
-                    <div class="col-md-3">
-                        <label>
-                            <input type="checkbox" name="check"  ng-model="cenaChecked">
-                            <span class="label-text">Cena</span>
-                        </label>
-                        <input type="number" class="form-control " id="precioCena" placeholder="$" ng-show="cenaChecked">
-    
-                    </div>
-                </div>
-    
-            </div>
-        </div>
-    </form>
+    <h2 align="center">Agregar Sitio Turistico</h2>
 
-    <div class="row grupoBotones">
-            <div class="col-sm-offset-1 col-sm-10" align="center">
-                <a type="button" class="btn btn-default btn_back" ng-href="#!/listaSitios" >Atras</a>
-                <a ng-click="vm.acceptUpdate()" type="button" class="btn btn-default btn_acept">Aceptar</a>
-        
-            </div>
-        </div>
+    <div class="form-group">
+        <label for="idNombre">Nombre</label>
+        <input type="text" class="form-control" id="idNombre" ng-model="vm.sitio.nombre">
+    </div>
+
+    <div class="form-group">
+        <label for="idDireccion">Dirrecion del lugar</label>
+        <input type="text" class="form-control" id="idDireccion" ng-model="vm.sitio.dir">
+
+    </div>
+    <div class="form-group">
+        <label for="selectCategoria">Categoria</label>
+        <select class="form-control" id="selectCategoria" ng-model="vm.selectCategoria" ng-options="x.categoria for x in vm.getCategoria"></select>
+    </div>
+    <div class="form-group">
+            <label for="comment">Descripcion:</label>
+            <textarea class="form-control" rows="5" id="comment" ng-model="vm.sitio.descripcion"></textarea>
+          </div>
+
+</form>
+
+<div class="row grupoBotones">
+    <div class="col-sm-offset-1 col-sm-10" align="center">
+        <a type="button" class="btn btn-default btn_back" ng-href="#!/listaSitios">Atras</a>
+        <a ng-click="vm.addSitio()" type="button" class="btn btn-default btn_acept">Aceptar</a>
+
+    </div>
+</div>
