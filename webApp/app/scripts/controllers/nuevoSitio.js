@@ -22,6 +22,7 @@ angular.module('webAppApp')
 
         vm.selectCategoria;
         vm.getCategoria;
+      
 
         //vm.acceptUpdate = acceptUpdate;
         vm.localhost = "192.168.0.13";
@@ -38,6 +39,7 @@ angular.module('webAppApp')
                 console.log(response.data);
                 $scope.vm.getCategoria = response.data;
             });
+            
         }
 
 
