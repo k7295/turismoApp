@@ -2,16 +2,12 @@
         <h2 align="center">Datos de Buses</h2>
         
         <div class="form-group">
-            <label for="idCedChofer">Cedula del Chofer</label>
-            <input type="number" class="form-control" id="idCedChofer" ng-model="vm.flotilla.cedChofer">
-        </div>
-        <div class="form-group">
-            <label for="idnombreChofer">Nombre del Chofer</label>
-            <input type="number" class="form-control" id="idnombreChofer" ng-model="vm.flotilla.nombreChofer">
+            <label for="idCedChofer">Chofer</label>
+            <select class="form-control" id="idCedChofer"   ng-model="vm.chofer" ng-options="x.nombre for x in vm.getChofer" ></select>
         </div>
 
         <div class="form-group">
-            <label for="idFlotilla">Número de Flotilla</label>
+            <label for="idFlotilla">Placa de Flotilla</label>
             <input type="text" class="form-control" id="idFlotilla" ng-model="vm.flotilla.placa">
         </div>
     
@@ -51,7 +47,7 @@
                     <ul class="list-group">
                         <li class="list-group-item">
                                 <label>
-                                        <input value="{{x}}" type="checkbox" name="check">
+                                        <input value="{{x}}" type="checkbox" name="check" id="selectServicios">
                                         <span class="label-text">{{x}}</span>
                                     </label>
                         </li>
