@@ -116,6 +116,8 @@ CREATE TABLE IF NOT EXISTS `servicioExcursiones`.`excursiones`(
 	`idDestino` INT NOT NULL,
 	`fechaSalida` DATE NOT NULL, -- FORMATO: YYYY-MM-DD
 	`lugarSalida` VARCHAR(100),
+	`lugarSalida2` VARCHAR(100),
+	`lugarSalida3` VARCHAR(100),
 	`horaSalida` TIME, -- Formato TBA
 	`cupos` INT NOT NULL,
 	`cuposDisponibles` INT NOT NULL, -- SE QUEDA?--
