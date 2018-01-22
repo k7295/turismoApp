@@ -8,12 +8,16 @@
  * Controller of the webAppUsuarioApp
  */
 angular.module('webAppUsuarioApp')
-    .controller('cancelarCtrl', function ($scope) {
+    .controller('cancelarCtrl', function ($scope,$http,$route) {
         var vm = this;
 
         vm.start = start;
-
-
+        vm.cancelarReservacion = cancelarReservacion;
+        
+        
+        vm.idReservacionCancelar;
+        vm.success = false;
+        vm.localhost = "192.168.0.17";
 
         vm.pics = ["https://images.unsplash.com/photo-1443890923422-7819ed4101c0?crop=entropy&fit=crop&fm=jpg&h=400&ixjsv=2.1.0&ixlib=rb-0.3.5&q=80&w=600",
             "https://images.unsplash.com/photo-1445964047600-cdbdb873673d?crop=entropy&fit=crop&fm=jpg&h=400&ixjsv=2.1.0&ixlib=rb-0.3.5&q=80&w=600",
@@ -54,6 +58,14 @@ angular.module('webAppUsuarioApp')
 
         document.getElementById('files').addEventListener('change', archivo, false);
 
+        function cancelarReservacion(){
+            $http.get('http://' + vm.localhost + ':3000/cancelReservacion/'+ vm.idReservacionCancelar).then(function (response) {
+                console.log(response.data);
+              
+              });
+
+              $route.reload();
+        }
 
     });
 

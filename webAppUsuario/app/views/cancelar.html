@@ -1,4 +1,4 @@
-<div class="col-md-6">
+<div>
     <div class="containerInfo" ng-controller="cancelarCtrl">
 
         <div class="infoTour">
@@ -8,7 +8,7 @@
 
                 <div class="form-group">
                     <label for="idReservacion">ID Reservacion</label>
-                    <input class="form-control" type="number" id="idReservacion">
+                    <input class="form-control" type="number" id="idReservacion" ng-model="vm.idReservacion">
                 </div>
 
                 <div class="column" id="columnaPic"></div>
@@ -21,14 +21,15 @@
 
             <div class="row grupoBotones">
                 <div class="col-sm-offset-1 col-sm-10" align="center">
-                    <a type="button" class="btn btn-default btn_acept">Enviar</a>
+                    <a type="button" class="btn btn-default btn_acept" ng-click="vm.pagarReservacion()">Enviar</a>
 
                 </div>
             </div>
         </div>
     </div>
 </div>
-<div class="col-md-6">
+
+
     <div class="containerInfo" ng-controller="cancelarCtrl">
 
         <div class="infoTour">
@@ -38,17 +39,46 @@
 
                 <div class="form-group">
                     <label for="idReservacion">ID Reservacion que desea cancelar</label>
-                    <input class="form-control" type="number" id="idReservacion">
+                    <input class="form-control" type="number" id="idReservacion" ng-model="vm.idReservacionCancelar">
                 </div>
 
             </form>
 
             <div class="row grupoBotones">
                 <div class="col-sm-offset-1 col-sm-10" align="center">
-                    <a type="button" class="btn btn-default btn_acept">Enviar</a>
+                    <a type="button" class="btn btn-default btn_acept" data-toggle="modal" data-target="#myModal" ng-click="vm.cancelarReservacion()">Enviar</a>
 
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="row grupoBotones">
+            <div class="col-sm-offset-1 col-sm-10" align="right">
+                <a type="button" class="btn btn-default btn_cancel" ng-href="#!/reservar">Atras</a>
+
+            </div>
+        </div>
+
+<div class="row">
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Reservacion Cancelada</h4>
+                </div>
+                <div class="modal-body">
+                    <p> Se ha cancelado su reservacion</p>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

@@ -1,51 +1,17 @@
 <div id="galeria" ng-init="vm.start()">
 
-  
+  <h2 align="center">Excursiones Disponibles</h2>
 
   <div class="row">
     <div class="column" ng-repeat="x in vm.pics">
       <div class="imagebox" id="{{x}}">
-        <a href="#!/tour#myCarousel">
-          <img ng-src="{{x}}" alt="" class="image" class="category-banner">
-          <span class="imagebox-desc">holi</span>
+        <a href="#!/tour/{{x.NombreExcursion}}#myCarousel">
+          <img ng-src="images/{{x.url}}" alt="" class="image" class="category-banner">
+          <span class="imagebox-desc">{{x.NombreExcursion}}</span>
         </a>
       </div>
     </div>
     
-  </div>
-  <div align=right>
-    <a ng-href="#!/listaExc" type="button" class="btn btn-default">Ver mas tours</a>
-  </div>
-  
-
-  <div class="row">
-    <div class="column" ng-repeat="x in vm.pics">
-      <div class="imagebox" id="{{x}}">
-        <a href="#!/hotel#myCarousel">
-          <img ng-src="{{x}}" alt="" class="image" class="category-banner">
-          <span class="imagebox-desc">holi</span>
-        </a>
-      </div>
-    </div>
-    
-  </div>
-  <div align=right>
-    <a ng-href="#!/listaHotel" type="button" class="btn btn-default">Ver mas Hoteles</a>
-  </div>
-
-  <div class="row">
-    <div class="column" ng-repeat="x in vm.pics">
-      <div class="imagebox" id="{{x}}">
-        <a href="#!/villas#myCarousel">
-          <img ng-src="{{x}}" alt="" class="image" class="category-banner">
-          <span class="imagebox-desc">holi</span>
-        </a>
-      </div>
-    </div>
-    
-  </div>
-  <div align=right>
-    <a ng-href="#!/listaVilla" type="button" class="btn btn-default">Ver mas Cabinas/Villas</a>
   </div>
 
 </div>

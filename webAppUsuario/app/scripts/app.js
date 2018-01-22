@@ -15,7 +15,8 @@ angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+    'ngMaterial'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -24,7 +25,7 @@ angular
         controller: 'MainCtrl',
         controllerAs: 'vm'
       })
-      .when('/tour', {
+      .when('/tour/:NombreExcursion', {
         templateUrl: 'views/tour.html',
         controller: 'tourCtrl',
         controllerAs: 'vm'

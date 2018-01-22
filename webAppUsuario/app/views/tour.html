@@ -6,47 +6,78 @@
         <div class="carousel-inner"></div>
 
         <!-- Left and right controls -->
-        <a class="left carousel-control" href="#!/tour#myCarousel" role="button" data-slide="prev">
+        <a class="left carousel-control" data-target="#myCarousel" role="button" data-slide="prev">
             <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
             <span class="sr-only">Previous</span>
         </a>
-        <a class="right carousel-control" href="#!/tour#myCarousel" role="button" data-slide="next">
+        <a class="right carousel-control" data-target="#myCarousel" role="button" data-slide="next">
             <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
             <span class="sr-only">Next</span>
         </a>
     </div>
     <div class="containerInfo">
-        <div class="infoTour">
-                <h2>Lugar X</h2>
+        <div class="infoTour" ng-model="vm.tour">
+                <h2>{{vm.tour.NombreExcursion}}</h2>
                 
-                    <label> Descripcion</label>
-                    <p id="descripcionTour">ja</p>
+                    <label> Destino</label>
+                    <p id="descripcionTour">{{vm.tour.nombreDestino}}</p>
                     <label>Categoria</label>
-                    <p id="categoria">ja</p>
+                    <p id="categoria">{{vm.tour.categoria}}</p>
                     <label>Fecha de Salida</label>
-                    <p id="fechaSalida">FechaSalida</p>
+                    <p id="fechaSalida">{{vm.tour.fechaHoraSalida}}</p>
                     <label>Puntos de salida</label>
-                    <ul id="ptosSalida" class="list-group" ng-repeat="x in vm.dir">
-                        <li class="list-group-item">{{x}}</li>
-                    </ul>
-                    <label>Precios</label>
+                    <p id="fechaSalida">{{vm.tour.lugarSalida}}</p>
+                    <label>Puntos de salida Extra</label>
+                    <p id="fechaSalida">{{vm.tour.lugarSalida2}}</p>
+                    <p id="fechaSalida">{{vm.tour.lugarSalida3}}</p>
+                    <label>Precios($)</label>
                     <ul id="precios" class="list-group">
                         <li class="list-group-item" id="precioNino">
-                            <p>Ninos</p>$$$</li>
+                            <p>Ninos</p>{{vm.tour.precioNino}}</li>
                         <li class="list-group-item" id="precioAdulto">
-                            <p>Adultos</p>$$$</li>
-                        <li class="list-group-item" id="precioAdultoMayor">
-                            <p>Adultos Mayores</p>$$$</li>
+                            <p>Adultos</p>{{vm.tour.precioAdulto}}</li>
+                        <li class="list-group-item" id="precioAdultoM">
+                            <p>Adultos Mayores</p>{{vm.tour.precioAdultoM}}</li>
                     </ul>
-                    <label>Servicios incluidos</label>
-                    <ul class="list-group" ng-repeat="x in vm.servicios">
-                        <li class="list-group-item">{{x}}</li>
+                    <label>Servicios incluidos en Transporte</label>
+                    <ul class="list-group" ng-repeat="x in vm.servicioFlotilla">
+                        <li class="list-group-item">{{x.servicio}}</li>
+                    </ul>
+                    <label>Alimentos Incluidos</label>
+                    <ul class="list-group" ng-repeat="x in vm.servicioExcursion">
+                        <li class="list-group-item">{{x.servicio}}</li>
                     </ul>
                    
                    
         </div>
         
     </div>
+
+    <div class="blog-comment">
+        <h2 class="text-success">Comentarios</h3>
+        <hr/>
+        <ul class="comments">
+				<li class="clearfix" ng-repeat="x in vm.getComentarios">
+				  <img src="https://bootdey.com/img/Content/user_1.jpg" class="avatar" alt="">
+				  <div class="post-comments">
+				      
+				      <p>{{x.comentario}}</p>
+				  </div>
+				</li>
+        </ul>
+        
+        <div class="widget-area no-padding blank">
+            <div class="status-upload">
+                <form>
+                    <textarea ng-model="vm.comentario" placeholder="Agregar Comentario del sitio :3" ></textarea>
+                    <button type="submit" ng-click="vm.addComentario()" class="btn btn-success green"><i class="fa fa-share"></i> Share</button>
+                </form>
+            </div><!-- Status Upload  -->
+        </div><!-- Widget Area -->
+        
+    </div>
+    
+
     
 
 </div>

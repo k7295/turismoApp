@@ -8,36 +8,63 @@
             <h2 align="center">Realizar Reservacion</h2>
 
             <div class="form-group">
-                <label for="nombreCliente">Nombre</label>
-                <input class="form-control" type="tel" id="nombreCliente">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="nombreCliente">Nombre</label>
+                        <input class="form-control" type="text" id="nombreCliente" ng-model="vm.reporte.nombre">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="primerApellido">Apellidos</label>
+                        <input class="form-control" type="text" id="primerApellido" ng-model="vm.reporte.apellido">
+                    </div>
+                </div>
+
+
             </div>
 
             <div class="form-group">
                 <label for="example-tel-input" class="col-2 col-form-label">Telefono</label>
                 <div class="col-10">
-                    <input class="form-control" type="tel" value="1-(555)-555-5555" id="example-tel-input">
+                    <input class="form-control" type="tel" value="1-(555)-555-5555" id="example-tel-input" ng-model="vm.reporte.tel">
                 </div>
-            </div>
-
-            <div class="form-group">
-                <label for="emailCliente">Email</label>
-                <input class="form-control" type="email" id="emailCliente">
             </div>
             <div class="form-group">
                 <label for="selectSitio">Excursion</label>
-                <select class="form-control" id="selectSitio" ng-model="selectSitio" ng-options="x for x in vm.lugares"></select>
+                <select class="form-control" id="selectSitio" ng-model="vm. selectSitio" ng-options="x.NombreExcursion for x in vm.getExcursiones"></select>
             </div>
             <div class="form-group">
                 <label for="selectCampos">Cantidad de Campos por reservar</label>
-                <input class="form-control" type="number" id="selectCampos">
+                <input class="form-control" type="number" id="selectCampos" ng-model="vm.reporte.campos">
             </div>
 
         </form>
 
         <div class="row grupoBotones">
             <div class="col-sm-offset-1 col-sm-10" align="center">
-                <a type="button" class="btn btn-default btn_acept">Aceptar</a>
+                <a type="button" class="btn btn-default btn_acept" data-toggle="modal" data-target="#myModal" ng-click="vm.addReporte()">Aceptar</a>
 
+            </div>
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Reservacion Exitosa</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p> Numero de Reservacion: {{vm.idReservacion}}</p>
+                            <p> Depositar a la Cuenta: {{vm.cuentaBancaria}}</p>
+                            <p> (Favor anotar el numero de reservacion)</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
