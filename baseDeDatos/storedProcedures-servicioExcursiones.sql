@@ -15,25 +15,52 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `uspActualizarDestino`(
 	pDestino VARCHAR(100),
 	pLugar VARCHAR(100),
 	pCategoria VARCHAR(50),
-	pDescripcion VARCHAR(250),
-	pNuevoNombre VARCHAR(100),
-	pNuevoLugar VARCHAR(100),
-	pNuevaCategoria VARCHAR(50),
-	pNuevaDescripcion VARCHAR(250)
+	pDescripcion VARCHAR(250)
 )
 BEGIN
-	CALL uspVerIdCategoria(IFNULL(pNuevaCategoria,pCategoria),@newCat);
-	CALL uspVerIdCategoria(pCategoria,@categoria);
+	CALL uspVerIdCategoria(pCategoria,@newCat);
 
 	UPDATE `destinosTuristicos`
-	SET `nombreDestino`=IFNULL(pNuevoNombre,pDestino),
-		`lugar`=IFNULL(pNuevoLugar,pLugar),
+	SET `nombreDestino`=pDestino,
+		`lugar`=pLugar,
 	 	`idCategoria`=@newCat,
-	 	`descripcion`=IFNULL(pNuevaDescripcion,pDescripcion)
-	WHERE LOWER(`nombreDestino`)=LOWER(pDestino) AND
-		  LOWER(`lugar`)=LOWER(pLugar) AND 
-		  `idCategoria`=@categoria AND
-		  LOWER(`descripcion`)=LOWER(pDescripcion);
+	 	`descripcion`=pDescripcion
+	WHERE LOWER(`nombreDestino`)=LOWER(pDestino);
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `uspActualizarExcursion`(
+	pDestino VARCHAR(100),pFechaHora VARCHAR(20),pLugar VARCHAR(100),pCupos INT,pPrecioA INT,pPrecioAM INT,
+	pPrecioNino INT, pGuia VARCHAR(10),pLugar2 VARCHAR(100),pLugar3 VARCHAR(100),pNombre VARCHAR(100),
+    pFechaPrimerPago VARCHAR(20), pFechaLimite VARCHAR(20),pCuentaBancaria VARCHAR(100),pPlaca VARCHAR(6)
+)
+BEGIN
+	CALL uspVerIdExcursion(pNombre,@excursion);
+    CALL uspVerIdDestino(pDestino,@destino);
+    
+	UPDATE `excursiones`
+	SET idDestino=@destino,
+		fechaHoraSalida=pFechaHora,
+        lugarSalida=pLugar,
+        cupos=pCupos,
+        cuposDisponibles=pCupos,
+        precioAdulto=pPrecioA,
+        precioAdultoM=pPrecioAM,
+        precioNino=pPrecioNino,
+        guia=pGuia,
+        lugarSalida2=pLugar2,
+        lugarSalida3=pLugar3,
+        fechaPrimerPago=pFechaPrimerPago,
+        fechaLimite=pFechaLimite,
+        cuentaBancaria=pCuentaBancaria
+	WHERE LOWER(`nombreExcursion`)=LOWER(pNombre);
+    
+    UPDATE `flotillaxexcursion`
+    SET idVehiculo=pPlaca
+    WHERE idExcursion=@excursion;
+	
+	CALL uspBorrarServiciosXExcursion(@excursion);
 END$$
 DELIMITER ;
 
@@ -98,6 +125,32 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `uspActualizarVehiculo`(
+	pPlaca VARCHAR(6),
+	pMarca VARCHAR(100),
+	pTipoVehiculo VARCHAR(25),
+	pCampos INT,
+    pMantenimiento TINYINT(1),
+	pChofer VARCHAR(10)
+)
+BEGIN
+	CALL uspVerIdMarca(pMarca,@marca);
+	CALL uspVerIdTipo(pTipoVehiculo,@tipo);
+
+	UPDATE `flotilla`
+	SET `idVehiculo`=pPlaca,
+		`idMarca`=@marca,
+	 	`idTipoVehiculo`=@tipo,
+	 	`campos`=pCampos,
+        `enMantenimiento`=pMantenimiento,
+        `chofer`=pChofer
+	WHERE `idVehiculo`=pPlaca;
+    
+    CALL uspBorrarServiciosXVehiculo(pPlaca);
+END$$
+DELIMITER ;
+
+DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `uspBorrarCategorias`(
 	pCategoria VARCHAR(50)
 )
@@ -114,6 +167,16 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `uspBorrarDestino`(
 BEGIN
 	DELETE FROM `destinosTuristicos`
 	WHERE LOWER(`nombreDestino`)=LOWER(pDestino);
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `uspBorrarExcursion`(
+	pExcursion VARCHAR(100)
+)
+BEGIN
+	DELETE FROM `excursiones`
+	WHERE nombreExcursion=pExcursion;
 END$$
 DELIMITER ;
 
@@ -158,12 +221,53 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `uspBorrarServiciosXExcursion`(
+	pExcursion INT
+)
+BEGIN
+	DELETE FROM serviciosxexcursion WHERE idExcursion=pExcursion;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `uspBorrarServiciosXVehiculo`(
+	pPlaca VARCHAR(6)
+)
+BEGIN
+	DELETE FROM servicioxvehiculo WHERE idVehiculo=pPlaca;
+END$$
+DELIMITER ;
+
+DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `uspBorrarTipo`(
 	pTipo VARCHAR(25)
 )
 BEGIN
 	DELETE FROM `tipoVehiculos`
 	WHERE LOWER(`tipoVehiculo`)=LOWER(pTipo);
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `uspBorrarVehiculoExcursion`(
+	pPlaca VARCHAR(6)
+)
+BEGIN
+	DELETE FROM `flotillaxexcursion`
+	WHERE idVehiculo=pPlaca;    
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `uspBorrarVehiculo`(
+	pPlaca VARCHAR(6)
+)
+BEGIN
+    CALL uspBorrarServiciosXVehiculo(pPlaca);
+    CALL uspBorrarVehiculoExcursion(pPlaca);
+    
+	DELETE FROM `flotilla`
+	WHERE idVehiculo=pPlaca;
 END$$
 DELIMITER ;
 
@@ -272,24 +376,29 @@ DELIMITER ;
 
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `uspInsertarExcursion`(
-	pDestino VARCHAR(100),pFecha DATE,pLugar VARCHAR(100),pHora TIME,pCupos INT,pPrecioA INT,pPrecioAM INT,
-	pPrecioNino INT, pGuia VARCHAR(10),pLugar2 VARCHAR(100),pLugar3 VARCHAR(100)
+	pDestino VARCHAR(100),pFechaHora VARCHAR(20),pLugar VARCHAR(100),pCupos INT,pPrecioA INT,pPrecioAM INT,
+	pPrecioNino INT, pGuia VARCHAR(10),pLugar2 VARCHAR(100),pLugar3 VARCHAR(100),pNombre VARCHAR(100),
+    pFechaPrimerPago VARCHAR(20), pFechaLimite VARCHAR(20),pCuentaBancaria VARCHAR(100),pPlaca VARCHAR(6)
 )
 BEGIN
 	DECLARE msgError CONDITION FOR SQLSTATE '22012';
 	DECLARE CONTINUE HANDLER FOR msgError
-	RESIGNAL SET MESSAGE_TEXT = 'La persona guia tiene un puesto distinto';
+	RESIGNAL SET MESSAGE_TEXT = 'Verifique los datos';
 
 	SET @puesto=(SELECT p.puesto
 				 FROM puestos p INNER JOIN
 					  personal pe ON(p.idPuesto=pe.idPuesto)
 				 WHERE pe.cedula=pGuia);
-	
-    IF LOWER(@puesto)='guia' THEN
+                 
+	CALL uspVerIdExcursion(pNombre,@excursion);
+    
+    IF (LOWER(@puesto)='guia') THEN
 		CALL uspVerIdDestino(pDestino,@destino);
-		INSERT INTO excursiones(idDestino,fechaSalida,lugarSalida,horaSalida,cupos,cuposDisponibles,precioAdulto,
-								precioAdultoM,precioNino,guia,lugarSalida2,lugarSalida3) 
-		VALUES(@destino,pFecha,pLugar,pHora,pCupos,pCupos,pPrecioA,pPrecioAM,pPrecioNino,pGuia,pLugar2,pLugar3);
+		INSERT INTO excursiones(idDestino,fechaHoraSalida,lugarSalida,cupos,cuposDisponibles,precioAdulto,
+								precioAdultoM,precioNino,guia,lugarSalida2,lugarSalida3,nombreExcursion,fechaPrimerPago,fechaLimite,cuentaBancaria) 
+		VALUES(@destino,pFechaHora,pLugar,pCupos,pCupos,pPrecioA,pPrecioAM,pPrecioNino,pGuia,pLugar2,pLugar3,pNombre,pFechaPrimerPago,pFechaLimite,pCuentaBancaria);
+        
+        CALL uspInsertarVehiculoXExcursion(pPlaca,LAST_INSERT_ID());
 	ELSE
 		SIGNAL msgError;
     END IF;
@@ -306,6 +415,32 @@ BEGIN
 
 	INSERT INTO imagenesDestinos(url,idDestino) 
 	VALUES(pUrl,@result);
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `uspInsertarImagenDestino`(
+	pDestino VARCHAR(100),
+    pUrl VARCHAR(300)
+)
+BEGIN
+	DECLARE msgError CONDITION FOR SQLSTATE '22012';
+	DECLARE CONTINUE HANDLER FOR msgError
+	RESIGNAL SET MESSAGE_TEXT = 'Imagen en el sistema';
+
+	CALL uspVerIdDestino(pDestino,@result);
+
+	IF NOT EXISTS(
+			SELECT id.idImagen
+			FROM imagenesdestinos id
+			WHERE id.url=pUrl AND idDestino=@result
+		)
+		THEN
+			INSERT INTO imagenesdestinos(url,idDestino) 
+			VALUES(pUrl,@result);
+	ELSE
+		SIGNAL msgError;
+	END IF;
 END$$
 DELIMITER ;
 
@@ -377,17 +512,17 @@ DELIMITER ;
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `uspInsertarReservacion`(
 	pNombre VARCHAR(50), pApellidos VARCHAR(50), pNumeroTelefonico VARCHAR(8),
-	pCampos INT, pDestino VARCHAR(100), pFPrimerPago DATE, pFechaFinal DATE
+	pCampos INT, pDestino VARCHAR(100)
 )
 BEGIN
-	CALL uspVerIdDestino(pDestino,@destino);
+	CALL uspVerIdExcursion(pDestino,@destino);
 
-	INSERT INTO reservaciones(nombre,apellidos,numeroTelefono,camposReservados,idExcursion,primerPago,fechaPrimerPago,pagado,fechaLimite,cancelado) 
-	VALUES(pNombre,pApellidos,pNumeroTelefonico,pCampos,@destino,0,pFPrimerPago,0,pFechaFinal,0);
+	INSERT INTO reservaciones(nombre,apellidos,numeroTelefono,camposReservados,idExcursion,primerPago,pagado,cancelado) 
+	VALUES(pNombre,pApellidos,pNumeroTelefonico,pCampos,@destino,0,0,0);
 	
 	UPDATE `excursiones`
 	SET `cuposDisponibles`=(`cuposDisponibles`-pCampos)
-	WHERE `idExcursion`=pDestino;
+	WHERE `idExcursion`=@destino;
 
 	SELECT LAST_INSERT_ID();
 END$$
@@ -458,6 +593,33 @@ BEGIN
 		)
 		THEN
 			INSERT INTO idServicioIncluido(idServicio,idDestino) VALUES(@servicio,@destino);
+	ELSE
+		SIGNAL msgError;
+	END IF;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `uspInsertarServicioXExcursion`(
+	pServicio VARCHAR(100),
+	pExcursion VARCHAR(100) -- Nombre de la excursion
+)
+BEGIN
+	DECLARE msgError CONDITION FOR SQLSTATE '22012';
+	DECLARE CONTINUE HANDLER FOR msgError
+	RESIGNAL SET MESSAGE_TEXT = 'Servicio en el sistema';
+
+	CALL uspVerIdServicioD(pServicio,@servicio);
+	CALL uspVerIdExcursion(pExcursion,@excursion);
+
+	IF NOT EXISTS(
+			SELECT s.idServicioExcursion
+			FROM serviciosXexcursion s
+			WHERE s.idServicio=@servicio AND
+				  s.idExcursion=@excursion
+		)
+		THEN
+			INSERT INTO serviciosXexcursion(idServicio,idExcursion) VALUES(@servicio,@excursion);
 	ELSE
 		SIGNAL msgError;
 	END IF;
@@ -557,14 +719,27 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `uspListarParticipantes`(
-	pIdExcursion INT
+CREATE DEFINER=`root`@`localhost` PROCEDURE `uspListarParticipantes`()
+BEGIN
+	SELECT e.nombreExcursion,CONCAT(r.nombre,' ',r.apellidos) AS nombre,r.numeroTelefono,r.camposReservados
+	FROM reservaciones r INNER JOIN
+		 excursiones e ON (r.idExcursion=e.idExcursion)
+	WHERE r.primerPago=1 AND
+		  r.pagado=1;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `uspListarReservaciones`(
+	pExcursion VARCHAR(100)
 )
 BEGIN
-	SELECT CONCAT(r.nombre,' ',r.apellidos),r.numeroTelefono,r.camposReservados
-	FROM reservaciones r
-	WHERE r.idExcursion=pIdExcursion AND
-		  r.pagado=1;
+	SELECT e.nombreExcursion,CONCAT(r.nombre,' ',r.apellidos) AS nombre,r.numeroTelefono,r.camposReservados
+	FROM reservaciones r INNER JOIN
+		 excursiones e ON (r.idExcursion=e.idExcursion)
+	WHERE r.primerPago=1 AND
+		  r.pagado=1 AND
+          e.nombreExcursion=IFNULL(pExcursion,e.nombreExcursion);
 END$$
 DELIMITER ;
 
@@ -709,33 +884,36 @@ DELIMITER ;
 
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `uspVerExcursion`(
-	pDestino VARCHAR(100),
-	pFecha DATE
+	pNombre VARCHAR(100)
 )
 BEGIN
-	CALL uspVerIdDestino(pDestino,@destino);
-	SELECT dt.nombreDestino,e.fechaSalida,e.lugarSalida,e.lugarSalida2,e.lugarSalida3,e.horaSalida,e.cuposDisponibles,e.precioAdulto,
-		   e.precioAdultoM,e.precioNino,CONCAT(p.nombre,' ',p.apellidos) as 'guia',p.cuentaBancaria,b.banco
+	SELECT e.NombreExcursion,dt.nombreDestino,e.fechaHoraSalida,e.lugarSalida,e.lugarSalida2,e.lugarSalida3,e.cuposDisponibles,e.precioAdulto,
+		   e.precioAdultoM,e.precioNino,CONCAT(p.nombre,' ',p.apellidos) as 'guia',p.correo,e.cuentaBancaria,e.fechaPrimerPago,e.fechaLimite,fxe.idVehiculo
 	FROM excursiones e INNER JOIN
 		 destinosTuristicos dt ON(e.idDestino=dt.idDestino) INNER JOIN
 		 personal p ON(e.guia=p.cedula) INNER JOIN
-         bancos b ON(p.idBanco=b.idBanco)
-	WHERE e.fechaSalida>CURDATE() AND
-		  e.idDestino=@destino AND
-		  e.fechaSalida=pFecha;
+         flotillaxexcursion fxe ON(fxe.idExcursion=e.idExcursion)
+	WHERE e.nombreExcursion=pNombre;
 END$$
 DELIMITER ;
 
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `uspVerExcursiones`()
 BEGIN
-	SELECT dt.nombreDestino,e.fechaSalida,e.lugarSalida,e.lugarSalida2,e.lugarSalida3,e.horaSalida,e.cuposDisponibles,e.precioAdulto,
-		   e.precioAdultoM,e.precioNino,CONCAT(p.nombre,' ',p.apellidos) AS 'guia',p.cuentaBancaria,b.banco
+	SELECT e.NombreExcursion,dt.nombreDestino,e.fechaHoraSalida,e.cuposDisponibles
 	FROM excursiones e INNER JOIN
 		 destinosTuristicos dt ON(e.idDestino=dt.idDestino) INNER JOIN
-		 personal p ON(e.guia=p.cedula) INNER JOIN
-         bancos b ON(p.idBanco=b.idBanco)
-	WHERE e.fechaSalida>CURDATE();
+		 personal p ON(e.guia=p.cedula);
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `uspVerGuias`()
+BEGIN
+	SELECT p.cedula,CONCAT(p.nombre,' ',p.apellidos) AS nombre
+    FROM personal p INNER JOIN
+		 puestos pu ON(p.idPuesto=pu.idPuesto)
+	WHERE LOWER(pu.puesto)='guia';
 END$$
 DELIMITER ;
 
@@ -770,8 +948,20 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `uspVerIdDestino`(
 )
 BEGIN
 	SELECT dt.idDestino INTO pSDestino
-	FROM destinosTuristicos dt
+	FROM destinosturisticos dt
 	WHERE dt.nombreDestino=pDestino;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `uspVerIdExcursion`(
+    pNombre VARCHAR(100),
+	OUT pSExcursion INT
+)
+BEGIN
+	SELECT e.idExcursion INTO pSExcursion
+    FROM excursiones e
+    WHERE e.nombreExcursion=pNombre;
 END$$
 DELIMITER ;
 
@@ -877,6 +1067,15 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `uspVerInfoDestinos`()
+BEGIN
+	SELECT dt.nombreDestino, c.categoria
+	FROM destinosTuristicos dt INNER JOIN
+		 categorias c ON (dt.idCategoria=c.idCategoria);
+END$$
+DELIMITER ;
+
+DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `uspVerMarca`(
 	pIdMarca INT,
 	OUT pSMarca VARCHAR(25)
@@ -902,6 +1101,18 @@ BEGIN
 	SELECT p.cedula, p.nombre, p.apellidos, p.numeroTelefono, p.correo, pu.puesto 
 	FROM personal p INNER JOIN
 		 puestos pu ON(p.idPuesto=pu.idPuesto);
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `uspVerPlacas`()
+BEGIN
+	SELECT v.idVehiculo, v.campos
+	FROM flotilla v INNER JOIN
+		 marcasVehiculos m ON(v.idMarca=m.idMarca) INNER JOIN
+		 personal p ON(p.cedula=v.chofer) INNER JOIN
+		 tipoVehiculos t ON(t.idTipoVehiculo=v.idTipoVehiculo)
+	WHERE v.enMantenimiento=0;
 END$$
 DELIMITER ;
 
@@ -966,15 +1177,16 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `uspVerServiciosXDestino`(
-	pDestino VARCHAR(100)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `uspVerServiciosXExcursion`(
+	pExcursion VARCHAR(100)
 )
 BEGIN
-	CALL uspVerIdDestino(pDestino,@destino);
+	CALL uspVerIdExcursion(pExcursion,@excursion);
 
-	SELECT s.idServicioIncluido
-	FROM serviciosIncluidos s
-	WHERE s.idDestino=@destino;
+	SELECT sd.servicio
+	FROM serviciosXexcursion s INNER JOIN
+		 serviciosdestinos sd ON (s.idServicio=sd.Idservicio)
+	WHERE s.idExcursion=@excursion;
 END$$
 DELIMITER ;
 
@@ -1025,11 +1237,23 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `uspVerVehiculo`(
 	pPlaca VARCHAR(6)
 )
 BEGIN
-	SELECT v.idVehiculo,m.marca,t.tipoVehiculo,v.campos,v.enMantenimiento,CONCAT(p.nombre,' ',p.apellidos) AS 'chofer'
+	SELECT v.idVehiculo as placa,m.marca,t.tipoVehiculo,v.campos,v.enMantenimiento,CONCAT(p.nombre,' ',p.apellidos) AS 'chofer'
 	FROM flotilla v INNER JOIN
 		 marcasVehiculos m ON(v.idMarca=m.idMarca) INNER JOIN
 		 personal p ON(p.cedula=v.chofer) INNER JOIN
 		 tipoVehiculos t ON(t.idTipoVehiculo=v.idTipoVehiculo)
 	WHERE v.idVehiculo=pPlaca;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `uspVerVehiculos`()
+BEGIN
+	SELECT v.idVehiculo AS 'placa',m.marca,CONCAT(p.nombre,' ',p.apellidos) AS 'chofer'
+	FROM flotilla v INNER JOIN
+		 marcasVehiculos m ON(v.idMarca=m.idMarca) INNER JOIN
+		 personal p ON(p.cedula=v.chofer) INNER JOIN
+		 tipoVehiculos t ON(t.idTipoVehiculo=v.idTipoVehiculo)
+	WHERE v.enMantenimiento=0;
 END$$
 DELIMITER ;
