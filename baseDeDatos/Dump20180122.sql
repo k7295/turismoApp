@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `servicioexcursiones` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `servicioexcursiones`;
--- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.6.24, for Win64 (x86_64)
 --
 -- Host: localhost    Database: servicioexcursiones
 -- ------------------------------------------------------
--- Server version	5.7.17-log
+-- Server version	5.6.27-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -361,7 +361,7 @@ CREATE TABLE `reservaciones` (
 
 LOCK TABLES `reservaciones` WRITE;
 /*!40000 ALTER TABLE `reservaciones` DISABLE KEYS */;
-INSERT INTO `reservaciones` VALUES (24,'Karen','Lepiz','645789',3,20,0,0,1,NULL,NULL),(25,'Giovanni','Villalobos','645789',5,21,0,0,1,NULL,NULL),(26,'sdasd','asdad','31231',12,20,0,0,1,NULL,NULL),(27,'fdads','asdas','3423',12,21,0,0,1,NULL,NULL),(28,'dfsd','fasdas','3242',12,20,0,0,1,NULL,NULL),(29,'asad','adasa','123221',3,20,0,0,1,NULL,NULL),(30,'sdasd','asdasd','a4231',1,20,0,0,0,NULL,NULL);
+INSERT INTO `reservaciones` VALUES (24,'Karen','Lepiz','645789',3,20,0,0,1,NULL,NULL),(25,'Giovanni','Villalobos','645789',5,21,0,0,1,NULL,NULL),(26,'sdasd','asdad','31231',12,20,0,0,1,NULL,NULL),(27,'fdads','asdas','3423',12,21,0,0,1,NULL,NULL),(28,'dfsd','fasdas','3242',12,20,0,0,1,NULL,NULL),(29,'asad','adasa','123221',3,20,0,0,1,NULL,NULL),(30,'sdasd','asdasd','a4231',1,20,1,1,0,'bahiaBallenas1.jpg','bosque-tropical.jpg');
 /*!40000 ALTER TABLE `reservaciones` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -411,6 +411,34 @@ LOCK TABLES `serviciosdestinos` WRITE;
 /*!40000 ALTER TABLE `serviciosdestinos` DISABLE KEYS */;
 INSERT INTO `serviciosdestinos` VALUES (1,'Todo incluido'),(2,'Desayuno'),(3,'Almuerzo'),(4,'Cena'),(5,'Merienda');
 /*!40000 ALTER TABLE `serviciosdestinos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `serviciosincluidos`
+--
+
+DROP TABLE IF EXISTS `serviciosincluidos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `serviciosincluidos` (
+  `idServicioIncluido` int(11) NOT NULL AUTO_INCREMENT,
+  `idServicio` int(11) NOT NULL,
+  `idDestino` int(11) NOT NULL,
+  PRIMARY KEY (`idServicioIncluido`),
+  KEY `idServicio` (`idServicio`),
+  KEY `idDestino` (`idDestino`),
+  CONSTRAINT `serviciosincluidos_ibfk_1` FOREIGN KEY (`idServicio`) REFERENCES `servicios` (`idServicio`),
+  CONSTRAINT `serviciosincluidos_ibfk_2` FOREIGN KEY (`idDestino`) REFERENCES `destinosturisticos` (`idDestino`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `serviciosincluidos`
+--
+
+LOCK TABLES `serviciosincluidos` WRITE;
+/*!40000 ALTER TABLE `serviciosincluidos` DISABLE KEYS */;
+/*!40000 ALTER TABLE `serviciosincluidos` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1252,6 +1280,31 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `uspInsertarImagen` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ALLOW_INVALID_DATES,ERROR_FOR_DIVISION_BY_ZERO,TRADITIONAL,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `uspInsertarImagen`(
+	pDestino VARCHAR(50),
+	pUrl VARCHAR(300)
+)
+BEGIN
+	CALL uspVerIdDestino(pDestino,@result);
+
+	INSERT INTO imagenesDestinos(url,idDestino) 
+	VALUES(pUrl,@result);
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `uspInsertarImagenDestino` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -1795,18 +1848,13 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `uspPrimerPagoHecho`(
     pUrl VARCHAR(300)
 )
 BEGIN
-	IF NOT EXISTS(
-		SELECT r.urlPago1
-        FROM reservaciones r
-        WHERE r.idReservacion=pIdReservacion
-    )
-		THEN
-			UPDATE `reservaciones`
-			SET `primerPago`=1
-			WHERE `idReservacion`=pIdReservacion;
-            
-            INSERT INTO reservaciones(urlPago1) VALUES(pUrl);
-    ELSE
+	SET @var=(SELECT r.urlPago1 FROM reservaciones r WHERE r.idReservacion=pIdReservacion);
+	IF (@var<=>null)
+	THEN
+		UPDATE `reservaciones`
+		SET `primerPago`=1,`urlPago1`=pUrl
+		WHERE `idReservacion`=pIdReservacion;
+	ELSE
 		CALL uspSegundoPagoHecho(pIdReservacion,pUrl);
     END IF;
 END ;;
@@ -1880,10 +1928,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `uspSegundoPagoHecho`(
 )
 BEGIN
 	UPDATE `reservaciones`
-	SET `pagado`=1
+	SET `pagado`=1,`urlPago2`=pUrl
 	WHERE `idReservacion`=pIdReservacion;
-    
-    INSERT INTO reservaciones(urlPago2) VALUES(pUrl);
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -2745,6 +2791,31 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `uspVerServiciosXDestino` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ALLOW_INVALID_DATES,ERROR_FOR_DIVISION_BY_ZERO,TRADITIONAL,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `uspVerServiciosXDestino`(
+	pDestino VARCHAR(100)
+)
+BEGIN
+	CALL uspVerIdDestino(pDestino,@destino);
+
+	SELECT s.idServicioIncluido
+	FROM serviciosIncluidos s
+	WHERE s.idDestino=@destino;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `uspVerServiciosXExcursion` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -2942,4 +3013,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-22 15:54:29
+-- Dump completed on 2018-01-22 16:51:05

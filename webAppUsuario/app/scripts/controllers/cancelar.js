@@ -13,9 +13,10 @@ angular.module('webAppUsuarioApp')
 
         vm.start = start;
         vm.cancelarReservacion = cancelarReservacion;
-        
+        vm.pagarReservacion = pagarReservacion;
         
         vm.idReservacionCancelar;
+        vm.idReservacion;
         vm.success = false;
         vm.localhost = "localhost";
 
@@ -65,6 +66,15 @@ angular.module('webAppUsuarioApp')
               });
 
               $route.reload();
+        }
+
+        function pagarReservacion(){
+            vm.file= $('input[type=file]').val().replace(/.*(\/|\\)/, '');
+            console.log(vm.file);
+            $http.get('http://' + vm.localhost + ':3000/pagarReservacion/'+vm.idReservacion+'/'+vm.file).then(function (response) {
+                console.log(response.data);
+              
+              });
         }
 
     });
