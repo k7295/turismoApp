@@ -8,10 +8,14 @@
  * Controller of the webAppApp
  */
 angular.module('webAppApp')
-    .controller('listaSitiosCtrl', function ($scope) {
+    .controller('listaSitiosCtrl', function ($scope,$http,$route) {
         var vm = this;
 
         vm.start = start;
+        vm.eliminarSitio = eliminarSitio;
+
+        vm.getDestinos;
+        vm.localhost = "192.168.0.13";
    
         //vm.acceptUpdate = acceptUpdate;
 
@@ -22,6 +26,22 @@ angular.module('webAppApp')
         
         function start() {
             console.log("entro a strart");
+            $http.get('http://' + vm.localhost + ':3000/getDestinosInfo/')
+            .then(function (response) {
+                //$scope.vm.addResponse = response;
+                console.log(response.data);
+                vm.getDestinos = response.data;
+            });
+        }
+
+        function eliminarSitio(destino){
+            console.log(destino);
+            $http.get('http://' + vm.localhost + ':3000/deleteDestino/'+destino)
+            .then(function (response) {
+                //$scope.vm.addResponse = response;
+                console.log(response.data);
+            });
+            $route.reload();
         }
 
         

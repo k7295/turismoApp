@@ -7,11 +7,11 @@
 
 
   <h2 align="center">Lista de Sitios Turisticos</h2>
-  <div class="list-group-listaInfo" ng-repeat="x in vm.person">
-    <a ng-href="#!/formSitios" class="list-group-item " id="list_info">
-      <p class="list-group-item-text">Nombre: {{x.nombre}}</p>
+  <div class="list-group-listaInfo" ng-repeat="x in vm.getDestinos">
+    <a ng-href="#!/formSitios/{{x.nombreDestino}}" class="list-group-item " id="list_info">
+      <p class="list-group-item-text">Nombre: {{x.nombreDestino}}</p>
       <p class="list-group-item-text">Categoria: {{x.categoria}}</p>
-      <p class="list-group-item-text">Fecha Salida: {{x.fechaSalida}}</p>
     </a>
+    <a  ng-click="vm.eliminarSitio(x.nombreDestino)" type="button" class="btn btn-default btn_acept"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
   </div>
 </div>
