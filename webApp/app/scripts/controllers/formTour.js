@@ -43,7 +43,7 @@ angular.module('webAppApp')
 
         vm.edit = true;
         vm.btnAcceptCancel = false;
-        vm.localhost = "192.168.0.13";
+        vm.localhost = "192.168.0.17";
 
 
         function start() {

@@ -2,23 +2,22 @@ CREATE TABLE `bancos` (
   `idBanco` int(11) NOT NULL AUTO_INCREMENT,
   `banco` varchar(20) NOT NULL,
   PRIMARY KEY (`idBanco`)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `categorias` (
   `idCategoria` int(11) NOT NULL AUTO_INCREMENT,
   `categoria` varchar(50) NOT NULL,
   PRIMARY KEY (`idCategoria`)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `comentariosdestino` (
   `idComentario` int(11) NOT NULL AUTO_INCREMENT,
   `idDestino` int(11) NOT NULL,
-  `persona` varchar(150) DEFAULT NULL,
   `comentario` varchar(280) DEFAULT NULL,
   PRIMARY KEY (`idComentario`),
   KEY `idDestino` (`idDestino`),
-  CONSTRAINT `comentariosdestino_ibfk_1` FOREIGN KEY (`idDestino`) REFERENCES `destinosturisticos` (`idDestino`)
-) ENGINE=InnoDB;
+  CONSTRAINT `comentariosdestino_ibfk_1` FOREIGN KEY (`idDestino`) REFERENCES `destinosturisticos` (`idDestino`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `destinosturisticos` (
   `idDestino` int(11) NOT NULL AUTO_INCREMENT,
@@ -28,7 +27,7 @@ CREATE TABLE `destinosturisticos` (
   `descripcion` varchar(250) NOT NULL,
   PRIMARY KEY (`idDestino`),
   KEY `idCategoria` (`idCategoria`)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `excursiones` (
   `idExcursion` int(11) NOT NULL AUTO_INCREMENT,
@@ -52,7 +51,7 @@ CREATE TABLE `excursiones` (
   KEY `guia` (`guia`),
   CONSTRAINT `excursiones_ibfk_1` FOREIGN KEY (`idDestino`) REFERENCES `destinosturisticos` (`idDestino`) ON DELETE CASCADE,
   CONSTRAINT `excursiones_ibfk_2` FOREIGN KEY (`guia`) REFERENCES `personal` (`cedula`)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `flotilla` (
   `idVehiculo` varchar(6) NOT NULL,
@@ -68,7 +67,7 @@ CREATE TABLE `flotilla` (
   CONSTRAINT `flotilla_ibfk_1` FOREIGN KEY (`idMarca`) REFERENCES `marcasvehiculos` (`idMarca`),
   CONSTRAINT `flotilla_ibfk_2` FOREIGN KEY (`idTipoVehiculo`) REFERENCES `tipovehiculos` (`idTipoVehiculo`),
   CONSTRAINT `flotilla_ibfk_3` FOREIGN KEY (`chofer`) REFERENCES `personal` (`cedula`)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `flotillaxexcursion` (
   `idFxE` int(11) NOT NULL AUTO_INCREMENT,
@@ -79,7 +78,7 @@ CREATE TABLE `flotillaxexcursion` (
   KEY `idVehiculo` (`idVehiculo`),
   CONSTRAINT `flotillaxexcursion_ibfk_1` FOREIGN KEY (`idExcursion`) REFERENCES `excursiones` (`idExcursion`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `flotillaxexcursion_ibfk_2` FOREIGN KEY (`idVehiculo`) REFERENCES `flotilla` (`idVehiculo`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `imagenesdestinos` (
   `idImagen` int(11) NOT NULL AUTO_INCREMENT,
@@ -88,13 +87,13 @@ CREATE TABLE `imagenesdestinos` (
   PRIMARY KEY (`idImagen`),
   KEY `idDestino` (`idDestino`),
   CONSTRAINT `imagenesdestinos_ibfk_1` FOREIGN KEY (`idDestino`) REFERENCES `destinosturisticos` (`idDestino`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `marcasvehiculos` (
   `idMarca` int(11) NOT NULL AUTO_INCREMENT,
   `marca` varchar(25) NOT NULL,
   PRIMARY KEY (`idMarca`)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `personal` (
   `cedula` varchar(10) NOT NULL,
@@ -106,13 +105,13 @@ CREATE TABLE `personal` (
   PRIMARY KEY (`cedula`),
   KEY `idPuesto` (`idPuesto`),
   CONSTRAINT `personal_ibfk_1` FOREIGN KEY (`idPuesto`) REFERENCES `puestos` (`idPuesto`)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `puestos` (
   `idPuesto` int(11) NOT NULL AUTO_INCREMENT,
   `puesto` varchar(20) NOT NULL,
   PRIMARY KEY (`idPuesto`)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `reservaciones` (
   `idReservacion` int(11) NOT NULL AUTO_INCREMENT,
@@ -127,13 +126,13 @@ CREATE TABLE `reservaciones` (
   PRIMARY KEY (`idReservacion`),
   KEY `idExcursion` (`idExcursion`),
   CONSTRAINT `reservaciones_ibfk_1` FOREIGN KEY (`idExcursion`) REFERENCES `excursiones` (`idExcursion`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `servicios` (
   `idServicio` int(11) NOT NULL AUTO_INCREMENT,
   `servicio` varchar(100) NOT NULL,
   PRIMARY KEY (`idServicio`)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `serviciosdestinos` (
   `idServicio` int(11) NOT NULL AUTO_INCREMENT,
@@ -150,7 +149,7 @@ CREATE TABLE `serviciosxexcursion` (
   KEY `serviciosxexcursion_ibfk_2` (`idExcursion`),
   CONSTRAINT `serviciosxexcursion_ibfk_1` FOREIGN KEY (`idServicio`) REFERENCES `servicios` (`idServicio`) ON DELETE CASCADE,
   CONSTRAINT `serviciosxexcursion_ibfk_2` FOREIGN KEY (`idExcursion`) REFERENCES `excursiones` (`idExcursion`) ON DELETE CASCADE
-) ENGINE=InnoDB;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `servicioxvehiculo` (
   `idServicioVehiculo` int(11) NOT NULL AUTO_INCREMENT,
@@ -161,10 +160,10 @@ CREATE TABLE `servicioxvehiculo` (
   KEY `idServicio` (`idServicio`),
   CONSTRAINT `servicioxvehiculo_ibfk_1` FOREIGN KEY (`idVehiculo`) REFERENCES `flotilla` (`idVehiculo`),
   CONSTRAINT `servicioxvehiculo_ibfk_2` FOREIGN KEY (`idServicio`) REFERENCES `servicios` (`idServicio`)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `tipovehiculos` (
   `idTipoVehiculo` int(11) NOT NULL AUTO_INCREMENT,
   `tipoVehiculo` varchar(25) DEFAULT NULL,
   PRIMARY KEY (`idTipoVehiculo`)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;

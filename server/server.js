@@ -17,9 +17,9 @@ var allowCrossDomain = function(req, res, next) {
 }
     
 var connection = mysql.createConnection({
-    host     : '192.168.0.20',
+    host     : 'localhost',
     user     : 'root',
-    password : 'root',
+    password : 'Deadpool',
     database : 'servicioexcursiones'
 });
 
@@ -40,7 +40,7 @@ app.get('/insertVehiculo/:placa/:marca/:tipo/:capacidad/:mantenimiento/:cedula',
     connection.query('CALL uspInsertarVehiculo(?,?,?,?,?,?)', [req.params.placa,req.params.marca,req.params.tipo,
         req.params.capacidad,req.params.mantenimiento,req.params.cedula], function(err, rows) {
         if (err) throw err;
-        resp.send(true);
+        resp.json(rows[0]);
         console.log("vehiculo insertado: " + req.params.placa + " " +req.params.marca + " " + req.params.tipo + " " + 
         req.params.capacidad + " " + req.params.mantenimiento + " " + req.params.cedula + " > " + new Date().toLocaleString());
     });
@@ -55,7 +55,7 @@ app.get('/insertServicioFlotilla/:nombre/:placa', function (req, resp) {
     resp.header("Access-Control-Allow-Headers", "X-Requested-With");
     connection.query('CALL uspInsertarServicioXVehiculo(?,?)', [req.params.nombre,req.params.placa], function(err, rows) {
         if (err) throw err;
-        resp.send(true);
+        resp.json(rows[0]);
         console.log("servicio insertado: " + req.params.nombre + " " + req.params.placa + " > " + new Date().toLocaleString());
     });
 
@@ -140,7 +140,7 @@ app.get('/insertCategoria/:nombre', function (req, resp) {
     resp.header("Access-Control-Allow-Headers", "X-Requested-With");
     connection.query('CALL uspInsertarCategoria(?)', [req.params.nombre], function(err, rows) {
         if (err) throw err;
-        resp.send(true);
+        resp.json(rows[0]);
         console.log("categoria insertada: " + req.params.nombre + " > " +  new Date().toLocaleString());
     });
 
@@ -206,7 +206,7 @@ app.get('/insertDestino/:nombre/:lugar/:categoria/:descripcion', function (req, 
     connection.query('CALL uspInsertarDestino(?,?,?,?)', [req.params.nombre,req.params.lugar,
         req.params.categoria,req.params.descripcion], function(err, rows) {
         if (err) throw err;
-        resp.send(true);
+        resp.json(rows[0]);
         console.log("destino insertado: " + req.params.nombre + " " + req.params.lugar + " " + 
         req.params.categoria + " " + req.params.descripcion + " > " +  new Date().toLocaleString());
     });
@@ -217,10 +217,33 @@ app.get('/insertDestino/:nombre/:lugar/:categoria/:descripcion', function (req, 
 app.get('/insertImagenDestino/:nombre/:url', function (req, resp) {
     resp.header("Access-Control-Allow-Origin", "*");
     resp.header("Access-Control-Allow-Headers", "X-Requested-With");
-    connection.query('CALL uspInsertarImagenDestino(?,?)', [req.params.nombre,req.params.lugar], function(err, rows) {
+    connection.query('CALL uspInsertarImagenDestino(?,?)', [req.params.nombre,req.params.url], function(err, rows) {
         if (err) throw err;
-        resp.send(true);
+        resp.json(rows[0]);
         console.log("imagen de destino insertada: " + req.params.nombre + " " + req.params.url + " > " +  new Date().toLocaleString());
+    });
+
+});
+
+
+app.get('/deleteImagen/:url', function (req, resp) {
+    resp.header("Access-Control-Allow-Origin", "*");
+    resp.header("Access-Control-Allow-Headers", "X-Requested-With");
+    connection.query('CALL uspBorrarImagen(?)', [req.params.url], function(err, rows) {
+        if (err) throw err;
+        console.log("imagen eliminada: " + req.params.url + " > " +  new Date().toLocaleString());
+    });
+
+});
+
+
+app.get('/getImagenesDestino/:nombre', function (req, resp) {
+    resp.header("Access-Control-Allow-Origin", "*");
+    resp.header("Access-Control-Allow-Headers", "X-Requested-With");
+    connection.query('CALL uspVerImagenesDestino(?)', [req.params.nombre], function(err, rows) {
+        if (err) throw err;
+        resp.json(rows[0]);
+        console.log("imagenes de destino devueltas: " + req.params.nombre + " > " +  new Date().toLocaleString());
     });
 
 });
@@ -364,7 +387,7 @@ app.get('/insertServicioExcursion/:nombreServicio/:nombreExcursion', function (r
     try{
         connection.query('CALL uspInsertarServicioXExcursion(?,?)', [req.params.nombreServicio,req.params.nombreExcursion], function(err, rows) {
         if (err) throw err;
-        resp.send(true);
+        resp.json(rows[0]);
         console.log("servicio insertado: " + req.params.nombreServicio + " " + req.params.nombreExcursion + " > " +
         new Date().toLocaleString());
     });
@@ -469,6 +492,85 @@ app.get('/getReporte/', function (req, resp) {
     });
 });
 
+
+
+//------------------------Parte del cliente-----
+//----------------------------------------------
+
+//seccion de excursiones-----
+//---------------------------
+app.get('/getExcursionesCliente/', function (req, resp) {
+    resp.header("Access-Control-Allow-Origin", "*");
+    resp.header("Access-Control-Allow-Headers", "X-Requested-With");    
+    connection.query('CALL uspVerExcursionesCliente()', function(err, rows) {
+        if (err) throw err;
+        resp.json(rows[0]);
+        console.log("excursiones para el cliente devueltas - " + new Date().toLocaleString());
+    });
+});
+
+
+//Comentarios----------
+//---------------------
+app.get('/insertComentario/:destino/:comentario', function (req, resp) {
+    resp.header("Access-Control-Allow-Origin", "*");
+    resp.header("Access-Control-Allow-Headers", "X-Requested-With");    
+    connection.query('CALL uspInsertarComentario(?,?)',[req.params.destino,req.params.comentario], function(err, rows) {
+        if (err) throw err;
+        resp.json(rows[0]);
+        console.log("comentario enviado - " + req.params.destino + " " +req.params.comentario  + " > " +
+        new Date().toLocaleString());
+    });
+});
+
+app.get('/getComentarios/:destino', function (req, resp) {
+    resp.header("Access-Control-Allow-Origin", "*");
+    resp.header("Access-Control-Allow-Headers", "X-Requested-With");    
+    connection.query('CALL uspVerComentarioDestino(?)',[req.params.destino], function(err, rows) {
+        if (err) throw err;
+        resp.json(rows[0]);
+        console.log("comentarios recibidos: - " + req.params.destino + " > " +
+        new Date().toLocaleString());
+    });
+});
+
+//reservar excursiones
+//--------------------
+app.get('/insertReservacion/:nombre/:apellidos/:numeroTel/:campos/:destino', function (req, resp) {
+    resp.header("Access-Control-Allow-Origin", "*");
+    resp.header("Access-Control-Allow-Headers", "X-Requested-With");    
+    connection.query('CALL uspInsertarReservacion(?,?,?,?,?)',[req.params.nombre,req.params.apellidos,
+        req.params.numeroTel,req.params.campos,req.params.destino], function(err, rows) {
+        if (err) throw err;
+        resp.json(rows[0]);
+        console.log("reservacion hecha: - " + req.params.nombre + " " + req.params.destino + " > " +
+        new Date().toLocaleString());
+    });
+});
+
+
+app.get('/cancelReservacion/:codigo', function (req, resp) {
+    resp.header("Access-Control-Allow-Origin", "*");
+    resp.header("Access-Control-Allow-Headers", "X-Requested-With");    
+    connection.query('CALL verEstadoReservacion(?)',[req.params.codigo], function(err, rows) {
+        if (err) throw err;
+        var response = JSON.stringify(rows[0]);
+        if(response[14] === '0')
+        {
+            connection.query('CALL uspCancelarReservacion(?)',[req.params.codigo], function(err, rows) {
+            if (err) throw err;
+            resp.json(rows[0]);
+            console.log("reservacion cancelada: - " + req.params.codigo + " > " +
+            new Date().toLocaleString());
+        });
+        }
+        else
+        {
+            resp.send("reservacion ya cancelada");
+        }
+    });
+    
+});
 
 app.listen(port);
 console.log("Listening on port:" + port);

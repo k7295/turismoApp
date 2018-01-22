@@ -20,8 +20,9 @@ angular.module('webAppApp')
                     {nombre:"lugarX",direccion:"por ahi",cantCampos:40,fechaSalida:"25/deb/2018"},
                     {nombre:"lugarX",direccion:"por ahi",cantCampos:40,fechaSalida:"25/deb/2018"}];
      */
-        vm.localhost = "192.168.0.13";
+        vm.localhost = "192.168.0.17";
         vm.getTour;
+        vm.tour;
         function start() {
             console.log("entro a strart");
             $http.get('http://' + vm.localhost + ':3000/getExcursiones/')
