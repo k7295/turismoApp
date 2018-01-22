@@ -30,17 +30,17 @@ angular
         controller: 'AboutCtrl',
         controllerAs: 'about'
       })
-      .when('/formFlotillas', {
+      .when('/formFlotillas/:placa', {
         templateUrl: 'views/formFlotillas.html',
         controller: 'formFlotillasCtrl',
         controllerAs: 'vm'
       })
-      .when('/formSitios', {
+      .when('/formSitios/:nombreDestino', {
         templateUrl: 'views/formSitios.html',
         controller: 'formSitiosCtrl',
         controllerAs: 'vm'
       })
-      .when('/formTour', {
+      .when('/formTour/:nombreTour', {
         templateUrl: 'views/formTour.html',
         controller: 'formTourCtrl',
         controllerAs: 'vm'

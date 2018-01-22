@@ -1,13 +1,30 @@
 <div ng-init="vm.start()">
-    
-        <h2 align="center">Lista de Reservaciones</h2>
-        <div class="list-group-listaInfo" ng-repeat="x in vm.person">
-            <a  class="list-group-item " id="list_info">
-                <p class="list-group-item-text">Nombre: {{x.firstName}} {{x.lastName1}}</p>
-                <p class="list-group-item-text">Campos solicitados: {{x.campos}}</p>
-                <p class="list-group-item-text">Tour: {{x.lugar}}</p>
-                <p class="list-group-item-text">Fecha de Salida: {{x.fechaSalida}}</p>
-                <p class="list-group-item-text">Monto Total Cancelado: {{x.cancelarMonto}}</p>
-            </a>
-        </div>
-    </div>
+
+    <h2 align="center">Lista de Reservaciones</h2>
+
+
+    <table class="table table-responsive" id="tablaReportes">
+        <thead>
+            <tr>
+                <td>
+                    <input type="text"  placeholder="Nombre del Destino" class="form-control" ng-model="vm.reporte.Excursion">
+                </td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <th>Contacto</th>
+                <th>Campos Solicitados</th>
+                <th>Tour</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr ng-repeat="x in vm.reporte | filter: vm.reporte.Excursion">
+                <td>{{x.nombre}}</td>
+                <td>{{x.numeroTelefono}}</td>
+                <td>{{x.camposReservados}}</td>
+                <td>{{x.nombreExcursion}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

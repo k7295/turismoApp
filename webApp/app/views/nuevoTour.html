@@ -1,172 +1,140 @@
 <form role="form" id="add_Tour" ng-init="vm.start()">
-        <h2 align="center">Agregar Excursion</h2>
+    <h2 align="center">Agregar Excursion</h2>
 
-        <h1 align="left">Informacion del Sitio Turistico</h1>
+
+    <div class="form-group">
+        <label for="idNombre">Nombre del Tour</label>
+        <input type="text" class="form-control" id="idNombre" ng-model="vm.tour.nombre">
+    </div>
+
+    <div class="form-group">
+        <label for="selectDestino">Destino</label>
+        <select class="form-control" id="selectDestino" ng-model="vm.selectDestino" ng-options="x.nombreDestino for x in vm.getDestino"></select>
+
+    </div>
+    <div class="form-group">
+        <label for="selectGuia">Guia Turistica</label>
+        <select class="form-control" id="selectGuia" ng-model="vm.selectGuia" ng-options="x.nombre for x in vm.getGuia"></select>
+    </div>
+
     
-        <div class="form-group">
-            <label for="idNombre">Nombre</label>
-            <input type="text" class="form-control" id="idNombre" >
-        </div>
+
+    <div class="form-group">
+
+            <label for="example-datetime-local-input" class="col-2 col-form-label">Fecha y Hora de Salida (yyyy-mm-dd hh:mm)</label>
+            <input class="form-control" type="text" placeholder="2018-01-18 13:00" id="example-datetime-local-input" ng-model="vm.tour.fecha">
     
-        <div class="form-group">
-            <label for="idDireccion">Dirrecion del lugar</label>
-            <input type="text" class="form-control" id="idDireccion" >
-    
+    </div>
+    <div class="form-group">
+        <label for="example-datetime-local-input" class="col-2 col-form-label">Fechas para cuotas</label>
+        <div>
+            <label for="fechaCuota1">Fecha y Hora para primera cuota (yyyy-mm-dd hh:mm)</label>
+            <input class="form-control" type="text" placeholder="2018-01-18 13:00" id="fechaCuota1" ng-model="vm.tour.fechaCuota1">
         </div>
-        <div class="form-group">
-            <label for="selectGuia">Guia Turistica</label>
-            <select class="form-control" id="selectGuia" ng-model="selectGuia" ng-options="x for x in vm.choferes" ></select>
+        <div>
+            <label for="fechaCuota2">Fecha y Hora para segunda cuota (yyyy-mm-dd hh:mm)</label>
+            <input class="form-control" type="text" placeholder="2018-01-18 13:00" id="fechaCuota2" ng-model="vm.tour.fechaCuota2">
         </div>
-        <div class="form-group">
-            <label for="example-tel-input" class="col-2 col-form-label">Contacto(Guia)</label>
-            <div class="col-10">
-                <input class="form-control" type="tel" value="1-(555)-555-5555" id="example-tel-input" >
+    </div>
+    <div class="form-group">
+        <label for="idPrecios">Precios Total($)</label>
+        <div class="row">
+            <div class="col-md-4">
+                <label for="precioNino">Nino</label>
+                <input type="number" class="form-control " id="precioNino" placeholder="$" ng-model="vm.tour.precioNino">
+
             </div>
-        </div>
-    
-        <div class="form-group">
-            <label for="idCantAsientos">Cantidad de campos</label>
-            <input type="number" class="form-control" id="idCantAsientos" >
-        </div>
-    
-        <div class="form-group">
-            <label for="example-datetime-local-input" class="col-2 col-form-label">Fecha y Hora de Salida</label>
-            <div class="col-10">
-                <input class="form-control" type="datetime-local" value="2011-08-19T13:45:00" id="example-datetime-local-input" >
+            <div class="col-md-4">
+                <label for="precioAdultos">Adultos</label>
+                <input type="number" class="form-control " id="precioAdultos" placeholder="$" ng-model="vm.tour.precioAdultos">
             </div>
-        </div>
-        <div class="form-group">
-            <label for="example-datetime-local-input" class="col-2 col-form-label">Fechas para cuotas</label>
-            <div class="col-6">
-                <label for="fechaCuota1">Fecha para primera cuota</label>
-                <input class="form-control" type="datetime-local" value="2011-08-19T13:45:00" id="fechaCuota1" >
+            <div class="col-md-4">
+                <label for="precioAdultosMay">Adultos Mayores(65+)</label>
+                <input type="number" class="form-control " id="precioAdultosMay" placeholder="$" ng-model="vm.tour.precioMayores">
+
             </div>
-            <div class="col-6">
-                <label for="fechaCuota2">Fecha para segunda cuota</label>
-                <input class="form-control" type="datetime-local" value="2011-08-19T13:45:00" id="fechaCuota2" >
-            </div>
+
         </div>
-        <div class="form-group">
-            <label for="idPrecios">Precios Total($)</label>
+
+    </div>
+
+
+    <div class="form-group">
+        <label for="idCuentaBancaria">Cuenta Bancaria</label>
+        <input type="text" class="form-control" id="idCuentaBancaria" ng-model="vm.tour.cuenta">
+    </div>
+
+    <div class="form-group">
+        <label for="idSalida">Lugar de Salida</label>
+        <input type="text" class="form-control" id="idSalida" ng-model="vm.tour.lugarSalida">
+    </div>
+
+    <div class="form-group">
+        <label for="idSalidaExtra">Lugar de Salida Extra (opcionales)</label>
+        <input type="text" class="form-control" id="idSalidaExtra1" ng-model="vm.tour.lugarSalida2">
+        <input type="text" class="form-control" id="idSalidaExtra2" ng-model="vm.tour.lugarSalida3">
+    </div>
+    <div class="form-group">
+        <label for="idAlimentos">Alimentos Incluidos</label>
+
+        <div class="wrapper" id="wrapper">
+
             <div class="row">
-                <div class="col-md-4">
-                    <label for="precioNino">Nino</label>
-                    <input type="number" class="form-control " id="precioNino" placeholder="$" >
-    
-                </div>
-                <div class="col-md-4">
-                    <label for="precioAdultos">Adultos</label>
-                    <input type="number" class="form-control " id="precioAdultos" placeholder="$" >
-    
-                </div>
-                <div class="col-md-4">
-                    <label for="precioAdultosMay">Adultos Mayores(65+)</label>
-                    <input type="number" class="form-control " id="precioAdultosMay" placeholder="$" >
-    
-                </div>
-            </div>
-    
-        </div>
-    
-        <div class="form-group">
-            <label for="idMetodoPago">Metodo de Pago</label>
-            <input type="text" class="form-control" id="idMetodoPago" >
-        </div>
-    
-        <div class="form-group">
-            <label for="idCuentaBancaria">Cuenta Bancaria</label>
-            <input type="text" class="form-control" id="idCuentaBancaria" >
-        </div>
-    
-        <div class="form-group">
-            <label for="idSalida">Lugar de Salida</label>
-            <input type="text" class="form-control" id="idSalida" >
-        </div>
-    
-        <div class="form-group">
-            <label for="idSalidaExtra">Lugar de Salida Extra (opcionales)</label>
-            <input type="text" class="form-control" id="idSalidaExtra1" >
-            <input type="text" class="form-control" id="idSalidaExtra2" >
-        </div>
-        <div class="form-group">
-                <label for="idAlimentos">Alimentos Incluidos</label>
-        
-                <div class="wrapper" id="wrapper">
-        
-                    <div class="row">
-                        <div class="col-md-3">
-                            <label>
-                                <input type="checkbox" name="check"  ng-model="meriendaChecked">
-                                <span class="label-text">Meriendas</span>
-                            </label>
-                            <input type="number" class="form-control " id="precioMerienda" placeholder="$" ng-show="meriendaChecked">
-        
-                        </div>
-                        <div class="col-md-3">
-                            <label>
-                                <input type="checkbox" name="check" ng-model="desayunoChecked">
-                                <span class="label-text">Desayuno</span>
-                            </label>
-                            <input type="number" class="form-control " id="precioDey" placeholder="$" ng-show="desayunoChecked">
-        
-                        </div>
-                        <div class="col-md-3">
-                            <label>
-                                <input type="checkbox" name="check" ng-model="almuerzoChecked">
-                                <span class="label-text">Almuerzo</span>
-                            </label>
-                            <input type="number" class="form-control " id="precioAlm" placeholder="$" ng-show="almuerzoChecked">
-        
-                        </div>
-                        <div class="col-md-3">
-                            <label>
-                                <input type="checkbox" name="check"  ng-model="cenaChecked">
-                                <span class="label-text">Cena</span>
-                            </label>
-                            <input type="number" class="form-control " id="precioCena" placeholder="$" ng-show="cenaChecked">
-        
-                        </div>
-                    </div>
-        
-                </div>
-            </div>
+                <div class="col-md-3">
+                    <label>
+                        <input type="checkbox" name="check" value="Merienda" ng-model="meriendaChecked">
+                        <span class="label-text">Meriendas</span>
+                    </label>
 
-        <h1 align="left">Informacion Transporte</h1>
-        
-            <div class="form-group">
-                <label for="idFlotilla">Número de Flotilla</label>
-                <input type="text" class="form-control" id="idFlotilla" >
-            </div>
-        
-            <div class="form-group">
-                <label for="selectMarca">Marca del Vehiculo</label>
-                <select class="form-control" id="selectMarca" ng-model="selectMarca" ng-options="x for x in vm.marcaBus" ></select>
-            </div>
-            <div class="form-group">
-                <label for="selectChofer">Chofer</label>
-                <select class="form-control" id="selectChofer" ng-model="selectChofer" ng-options="x for x in vm.choferes" ></select>
-            </div>
 
-            <div class="form-group">
-                    <label for="example-tel-input" class="col-2 col-form-label">Contacto(Guia)</label>
-                    <div class="col-10">
-                        <input class="form-control" type="tel" value="1-(555)-555-5555" id="example-tel-input" >
-                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label>
+                        <input type="checkbox" name="check" value="Desayuno" ng-model="desayunoChecked">
+                        <span class="label-text">Desayuno</span>
+                    </label>
+
+
+                </div>
+                <div class="col-md-3">
+                    <label>
+                        <input type="checkbox" name="check" value="Almuerzo" ng-model="almuerzoChecked">
+                        <span class="label-text">Almuerzo</span>
+                    </label>
+
+
+                </div>
+                <div class="col-md-3">
+                    <label>
+                        <input type="checkbox" name="check" value="Cena" ng-model="cenaChecked">
+                        <span class="label-text">Cena</span>
+                    </label>
+
+
                 </div>
 
-            <div class="form-group">
-                <label for="idFlotilla">Servicios Disponibles</label>
-                <ul class="list-group" ng-repeat="x in vm.servicios">
-                        <li class="list-group-item">{{x}}</li>       
-                </ul>
             </div>
-    
-    </form>
 
-    <div class="row grupoBotones">
-            <div class="col-sm-offset-1 col-sm-10" align="center">
-                <a type="button" class="btn btn-default btn_back" ng-show="vm.edit" ng-href="#!/listaTour">Atras</a>
-                <a ng-click="vm.acceptUpdate()" type="button" class="btn btn-default btn_acept">Aceptar</a>
-        
-            </div>
         </div>
+    </div>
+
+    <div class="form-group">
+        <label for="idAlimentos">Seleccionar Vehiculo para Tour</label>
+        <div>
+            <label for="selectFlotilla">Placas  y campos de Vehiculos Disponibles</label>
+            <select class="form-control" id="selectFlotilla" ng-model="vm.selectFlotilla" ng-options="'placa: ' +x.idVehiculo + ' campos: '  + x.campos for x in vm.getVehiculo"></select>
+        </div>
+
+    </div>
+
+
+
+</form>
+
+<div class="row grupoBotones">
+    <div class="col-sm-offset-1 col-sm-10" align="center">
+        <a type="button" class="btn btn-default btn_back" ng-show="vm.edit" ng-href="#!/listaTour">Atras</a>
+        <a ng-click="vm.addTour()" type="button" class="btn btn-default btn_acept">Aceptar</a>
+
+    </div>
+</div>

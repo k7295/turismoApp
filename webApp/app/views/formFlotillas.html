@@ -1,18 +1,28 @@
 <form role="form" id="form_Flotillas" ng-init="vm.start()">
     <h2 align="center">Información de Buses</h2>
-
+    <div class="form-group">
+            <label for="idCedChofer">Chofer</label>
+            <input type="text" class="form-control" id="idCedChofer" ng-disabled="vm.edit" ng-show="vm.edit" ng-model="vm.flotilla.chofer">
+            <select class="form-control" id="idCedChofer" ng-show="!vm.edit" ng-model="vm.chofer" ng-options="x.nombre for x in vm.getChofer" ></select>
+        </div>
     <div class="form-group">
         <label for="idFlotilla">Número de Flotilla</label>
-        <input type="text" class="form-control" id="idFlotilla" ng-disabled="vm.edit">
+        <input type="text" class="form-control" id="idFlotilla" ng-disabled="vm.edit" ng-model="vm.flotilla.placa">
     </div>
 
     <div class="form-group">
         <label for="selectMarca">Marca del Vehiculo</label>
-        <select class="form-control" id="selectMarca" ng-model="selectMarca" ng-options="x in vm.marcaBus" ng-disabled="vm.edit"></select>
+        <input type="text" class="form-control" id="school" ng-model="vm.flotilla.marca" ng-disabled="vm.edit" ng-show="vm.edit">
+        <select class="form-control" id="selectMarca" ng-model="vm.selectMarca" ng-options="x.marca for x in vm.getMarca" ng-show ="!vm.edit"></select>
     </div>
     <div class="form-group">
+            <label for="selectTipo">Marca del Vehiculo</label>
+            <input type="text" class="form-control" ng-model="vm.flotilla.tipoVehiculo" ng-disabled="vm.edit" ng-show="vm.edit">
+            <select class="form-control" id="selectTipo" ng-model="vm.selectTipo" ng-options="x.tipoVehiculo for x in vm.getTipoVehiculo" ng-show ="!vm.edit"></select>
+        </div>
+    <div class="form-group">
         <label for="idCantAsientos">Cantidad de asientos</label>
-        <input type="number" class="form-control" id="idCantAsientos" ng-disabled="vm.edit">
+        <input type="number" class="form-control" id="idCantAsientos" ng-disabled="vm.edit" ng-model="vm.flotilla.campos">
     </div>
 
     <div class="form-group">
@@ -21,7 +31,7 @@
 
             <div class="form-check">
                 <label>
-                    <input type="checkbox" name="check" ng-disabled="vm.edit">
+                    <input type="checkbox" name="check" ng-disabled="vm.edit" checked="vm.flotilla.enMatenimiento">
                     <span class="label-text">Transporte Disponible</span>
                 </label>
             </div>
@@ -32,15 +42,19 @@
     <div class="form-group">
         <label for="idFlotilla">Servicios Disponibles</label>
 
-        <div class="wrapper" id="wrapper" ng-repeat="x in vm.servicios">
+        <ul class="list-group">
+            <li class="list-group-item" ng-repeat="x in vm.servicioFlotilla" ng-show="vm.edit">
+                    <span class="label-text">{{x.servicio}}</span>
+            </li>
+        </ul>
 
+        <div class="wrapper" id="wrapper" ng-repeat="x in vm.getServicios" ng-show="!vm.edit">
             <div class="form-check">
                 <label>
-                    <input type="checkbox" name="check" ng-disabled="vm.edit">
-                    <span class="label-text">{{x}}</span>
+                    <input type="checkbox" name="check" id="selectServicios" value="{{x.servicio}}" ng-disabled="vm.edit">
+                    <span class="label-text">{{x.servicio}}</span>
                 </label>
             </div>
-
         </div>
     </div>
 

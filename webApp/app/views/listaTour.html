@@ -7,12 +7,13 @@
 
 
     <h2 align="center">Lista de Excursiones</h2>
-    <div class="list-group-listaInfo" ng-repeat="x in vm.person">
-        <a ng-href="#!/formTour" class="list-group-item " id="list_info">
-            <p class="list-group-item-text">Nombre: {{x.nombre}}</p>
-            <p class="list-group-item-text">Direccion: {{x.direccion}}</p>
-            <p class="list-group-item-text">Fecha Salida: {{x.fechaSalida}}</p>
-            <p class="list-group-item-text">Campos Disponibles: {{x.cantCampos}}</p>
+    <div class="list-group-listaInfo" ng-repeat="x in vm.getTour">
+        <a ng-href="#!/formTour/{{x.NombreExcursion}}" class="list-group-item " id="list_info">
+            <p class="list-group-item-text">Nombre: {{x.NombreExcursion}}</p>
+            <p class="list-group-item-text">Direccion: {{x.nombreDestino}}</p>
+            <p class="list-group-item-text">Fecha y Salida: {{x.fechaHoraSalida}}</p>
+            <p class="list-group-item-text">Campos Disponibles: {{x.cuposDisponibles}}</p>
         </a>
+        <a  ng-click="vm.eliminarTour(x.NombreExcursion)" type="button" class="btn btn-default btn_acept"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
     </div>
 </div>

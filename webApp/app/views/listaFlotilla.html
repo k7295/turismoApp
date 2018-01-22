@@ -7,11 +7,20 @@
         
         
             <h2 align="center">Lista de Flotillas</h2>
-            <div class="list-group-listaInfo" ng-repeat="x in vm.person">
-                <a ng-href="#!/formFlotillas" class="list-group-item " id="list_info">
-                    <p class="list-group-item-text">Placa: {{x.id}}</p>
-                    <p class="list-group-item-text">Marca de Flotilla: {{x.marcaBus}}</p>
-                    <p class="list-group-item-text">Chofer: {{x.firstName}} {{x.lastName1}}</p>
-                </a>
+            <div class="list-group-listaInfo" ng-repeat="x in vm.getflotillas">
+                
+                        <a ng-href="#!/formFlotillas/{{x.placa}}" class="list-group-item " id="list_info">
+                            <p class="list-group-item-text">Placa: {{x.placa}}</p>
+                            <p class="list-group-item-text">Marca de Flotilla: {{x.marca}}</p>
+                            <p class="list-group-item-text">Chofer: {{x.chofer}}</p>
+                            
+                        </a>
+                     
+                        <a  ng-click="vm.eliminarFlotilla(x.placa)" type="button" class="btn btn-default btn_acept"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                     
+                       
+               
+                
+                
             </div>
         </div>
