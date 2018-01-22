@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `servicioexcursiones` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `servicioexcursiones`;
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: servicioexcursiones
@@ -156,7 +158,7 @@ CREATE TABLE `excursiones` (
 
 LOCK TABLES `excursiones` WRITE;
 /*!40000 ALTER TABLE `excursiones` DISABLE KEYS */;
-INSERT INTO `excursiones` VALUES (20,8,'2018-01-01 20:10','SalidaA',23,50,15,16,12,'30483','SalidaA','null','DestinoB','2018-01-01 20:10','2018-01-01 20:10','914834623'),(21,9,'2018-01-01 20:10','ja',45,36,13,41,12,'30483','','','DestinoA','2018-01-01 20:10','2018-01-01 20:10','765431');
+INSERT INTO `excursiones` VALUES (20,8,'2018-01-01 20:10','SalidaA',23,22,15,16,12,'30483','SalidaA','null','DestinoB','2018-01-01 20:10','2018-01-01 20:10','914834623'),(21,9,'2018-01-01 20:10','ja',45,45,13,41,12,'30483','','','DestinoA','2018-01-01 20:10','2018-01-01 20:10','765431');
 /*!40000 ALTER TABLE `excursiones` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -345,10 +347,12 @@ CREATE TABLE `reservaciones` (
   `primerPago` tinyint(1) NOT NULL,
   `pagado` tinyint(1) NOT NULL,
   `cancelado` tinyint(1) NOT NULL,
+  `urlPago1` varchar(300) DEFAULT NULL,
+  `urlPago2` varchar(300) DEFAULT NULL,
   PRIMARY KEY (`idReservacion`),
   KEY `idExcursion` (`idExcursion`),
   CONSTRAINT `reservaciones_ibfk_1` FOREIGN KEY (`idExcursion`) REFERENCES `excursiones` (`idExcursion`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -357,7 +361,7 @@ CREATE TABLE `reservaciones` (
 
 LOCK TABLES `reservaciones` WRITE;
 /*!40000 ALTER TABLE `reservaciones` DISABLE KEYS */;
-INSERT INTO `reservaciones` VALUES (4,'Roberto','Ortiz','321456',20,20,0,0,0),(5,'Karen','Lepiz','123147',3,20,1,1,0),(6,'Giovanni','Villalobos','456897',2,21,1,1,0),(7,'Panfilo','mordis queado','22232456',5,21,0,0,0),(8,'Jorge','nitales','56874687',10,21,0,0,1),(9,'ana','lisa meltrozo','65498712',8,21,0,0,1),(10,'Fulano','Fnn Fn','453423',20,20,0,0,1),(11,'Mengana','Mg','2394293',10,20,0,0,0),(12,'Florentina','Mata','564544',45,21,0,0,0),(13,'Sutana','Suta','453423',1,20,0,0,0),(14,'Flor','en tina','312312',1,20,0,0,0),(15,'Ja','bruh','5656',1,21,0,0,0),(16,'fdfs','sdfs','342',12,20,0,0,0),(17,'Roberto','Ortiz','12346',8,20,0,0,1),(18,'sdsd','da','3423',1,21,0,0,0),(19,'asdas','dasdas','asdas',2,20,0,0,0),(20,'asdas','dasdas','asdas',2,20,0,0,0),(21,'Roberto','Ortiz','12346',8,20,0,0,1),(22,'asdasd','asdasd','3423',1,20,0,0,0),(23,'dfsdfs','asdas','3',1,20,0,0,0);
+INSERT INTO `reservaciones` VALUES (24,'Karen','Lepiz','645789',3,20,0,0,1,NULL,NULL),(25,'Giovanni','Villalobos','645789',5,21,0,0,1,NULL,NULL),(26,'sdasd','asdad','31231',12,20,0,0,1,NULL,NULL),(27,'fdads','asdas','3423',12,21,0,0,1,NULL,NULL),(28,'dfsd','fasdas','3242',12,20,0,0,1,NULL,NULL),(29,'asad','adasa','123221',3,20,0,0,1,NULL,NULL),(30,'sdasd','asdasd','a4231',1,20,0,0,0,NULL,NULL);
 /*!40000 ALTER TABLE `reservaciones` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1047,11 +1051,25 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `uspCancelarReservacion`(
 	pIdReservacion INT
 )
 BEGIN
-	UPDATE reservaciones r
-    SET cancelado=1
-    WHERE r.idReservacion=pIdReservacion;
+	DECLARE msgError CONDITION FOR SQLSTATE '22012';
+	DECLARE CONTINUE HANDLER FOR msgError
+	RESIGNAL SET MESSAGE_TEXT = 'Reservacion ya cancelada';
     
-	CALL uspAumentarCampos(pIdReservacion);
+    IF EXISTS(
+			SELECT r.cancelado
+            FROM reservaciones r
+            WHERE pIdReservacion=r.idReservacion AND
+				  r.cancelado=1
+		)
+		THEN
+			SIGNAL msgError;
+	ELSE
+		UPDATE reservaciones
+		SET cancelado=1
+		WHERE idReservacion=pIdReservacion;
+		
+		CALL uspAumentarCampos(pIdReservacion);
+	END IF;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1773,12 +1791,24 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `uspPrimerPagoHecho`(
-	pIdReservacion INT
+	pIdReservacion INT,
+    pUrl VARCHAR(300)
 )
 BEGIN
-	UPDATE `reservaciones`
-	SET `primerPago`=1
-	WHERE `idReservacion`=pIdReservacion;
+	IF NOT EXISTS(
+		SELECT r.urlPago1
+        FROM reservaciones r
+        WHERE r.idReservacion=pIdReservacion
+    )
+		THEN
+			UPDATE `reservaciones`
+			SET `primerPago`=1
+			WHERE `idReservacion`=pIdReservacion;
+            
+            INSERT INTO reservaciones(urlPago1) VALUES(pUrl);
+    ELSE
+		CALL uspSegundoPagoHecho(pIdReservacion,pUrl);
+    END IF;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1845,12 +1875,15 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `uspSegundoPagoHecho`(
-	pIdReservacion INT
+	pIdReservacion INT,
+    pUrl VARCHAR(300)
 )
 BEGIN
 	UPDATE `reservaciones`
 	SET `pagado`=1
 	WHERE `idReservacion`=pIdReservacion;
+    
+    INSERT INTO reservaciones(urlPago2) VALUES(pUrl);
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -2878,6 +2911,27 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `verEstadoReservacion` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`%` PROCEDURE `verEstadoReservacion`(In pCodigo TINYINT(1))
+BEGIN
+	SELECT r.Cancelado
+    FROM reservaciones r
+    WHERE r.idReservacion = pCodigo;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -2888,4 +2942,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-22 12:19:24
+-- Dump completed on 2018-01-22 15:54:29

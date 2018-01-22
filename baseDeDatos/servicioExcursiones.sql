@@ -1,3 +1,5 @@
+CREATE DATABASE `servicioexcursiones` /*!40100 DEFAULT CHARACTER SET utf8 */;
+
 CREATE TABLE `bancos` (
   `idBanco` int(11) NOT NULL AUTO_INCREMENT,
   `banco` varchar(20) NOT NULL,
