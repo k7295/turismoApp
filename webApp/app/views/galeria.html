@@ -1,18 +1,29 @@
 <div id="galeria" ng-init="vm.start()">
+        <label for="selectDestino" class="label">Destino</label>
+        <select class="form-control" id="selectDestino" ng-model="vm.selectDestino" ng-options="x.nombreDestino for x in vm.getDestino"></select>
+        <a ng-click="vm.cargarImagen()" type="button" class="btn btn-default btn_acept">Buscar Imagenes</a>
     <div class="row">
+       
         <div class="column" ng-repeat="x in vm.pics">
             <div class="imagebox" id="{{$index}}">
-              
-                    <img  ng-src="{{x}}" alt="" class="image" class="category-banner">
-                    <label for="">{{$index}}</label>
-                    <a  ng-click="vm.deletePic($index)" type="button" class="btn btn-default btn_acept"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
-                
+
+                <img ng-src="images/{{x.url}}" id="{{x.url}}" alt="" class="image" class="category-banner">
+                <label for="">{{$index}}</label>
+                <a ng-click="vm.deletePic(x.url)" type="button" class="btn btn-default btn_acept">
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                </a>
+
             </div>
         </div>
-        <div class="column" id="columnaPic"></div>
+  
+        
+        
+        <div class="column" id="columnaPic" hidden>
+        </div>
+        
 
     </div>
-    <input type="file" id="files" name="files[]" />
+    <input type="file" id="files" name="files[]" image="image"  /> 
     <br />
-    
+
 </div>
