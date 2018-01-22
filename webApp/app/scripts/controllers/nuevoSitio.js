@@ -8,7 +8,7 @@
  * Controller of the webAppApp
  */
 angular.module('webAppApp')
-    .controller('nuevoSitioCtrl', function ($scope, $http) {
+    .controller('nuevoSitioCtrl', function ($scope, $http,$window) {
         var vm = this;
 
         vm.start = start;
@@ -55,6 +55,9 @@ angular.module('webAppApp')
                     console.log(data);
                 });
             }
+
+            var landingUrl = "http://" + $window.location.host + "/#!/listaSitios";
+            $window.location.href = landingUrl;
             
         }
 
