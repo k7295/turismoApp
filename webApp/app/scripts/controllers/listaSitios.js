@@ -15,7 +15,7 @@ angular.module('webAppApp')
         vm.eliminarSitio = eliminarSitio;
 
         vm.getDestinos;
-        vm.localhost = "192.168.0.13";
+        vm.localhost = "localhost";
    
         //vm.acceptUpdate = acceptUpdate;
 

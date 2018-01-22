@@ -19,7 +19,7 @@ angular.module('webAppUsuarioApp')
 
         vm.start = start;
         vm.addComentario = addComentario;
-        vm.localhost = "192.168.0.17";
+        vm.localhost = "localhost";
 
         /* vm.pics = ["https://images.unsplash.com/photo-1443890923422-7819ed4101c0?crop=entropy&fit=crop&fm=jpg&h=400&ixjsv=2.1.0&ixlib=rb-0.3.5&q=80&w=600",
              "https://images.unsplash.com/photo-1445964047600-cdbdb873673d?crop=entropy&fit=crop&fm=jpg&h=400&ixjsv=2.1.0&ixlib=rb-0.3.5&q=80&w=600",

@@ -35,7 +35,7 @@ angular.module('webAppApp')
         vm.getDestino;
         vm.getGuia;
 
-        vm.localhost = "192.168.0.13";
+        vm.localhost = "localhost";
 
         /*
         vm.marcaBus = ["Mercedes-Benz", "Hyundai", "Volvo", "Volkswagen", "DongFeng"];

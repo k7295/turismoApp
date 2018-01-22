@@ -25,7 +25,7 @@ angular.module('webAppApp')
       
 
         //vm.acceptUpdate = acceptUpdate;
-        vm.localhost = "192.168.0.13";
+        vm.localhost = "localhost";
 
        /* vm.marcaBus = ["Mercedes-Benz", "Hyundai", "Volvo", "Volkswagen", "DongFeng"];
         vm.servicios = ["WIFI", "Banos", "Bar", "Aire Acondicionado", "TV", "musica"];

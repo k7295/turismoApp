@@ -35,7 +35,7 @@ angular.module('webAppApp')
         vm.edit = true;
         vm.btnAcceptCancel = false;
 
-        vm.localhost = "192.168.0.13";
+        vm.localhost = "localhost";
 
         function start() {
             console.log("entro a strart");

@@ -14,7 +14,7 @@ angular.module('webAppApp')
         vm.start = start;
         vm.updateSitiosForm = updateSitiosForm;
         vm.cancelUpdate = cancelUpdate;
-        vm.localhost = "192.168.0.13";
+        vm.localhost = "localhost";
 
         vm.sitio;
         vm.nombreDestino;

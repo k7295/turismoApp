@@ -572,5 +572,18 @@ app.get('/cancelReservacion/:codigo', function (req, resp) {
     
 });
 
+
+app.get('/pagarReservacion/:codigo/:url', function (req, resp) {
+    resp.header("Access-Control-Allow-Origin", "*");
+    resp.header("Access-Control-Allow-Headers", "X-Requested-With");    
+    connection.query('CALL uspPrimerPagoHecho(?,?)',[req.params.codigo,req.params.url], function(err, rows) {
+        if (err) throw err;
+        resp.json(rows[0]);
+        console.log("pago hecho: - " + req.params.codigo + " > " +
+        new Date().toLocaleString());
+    });
+    
+});
+
 app.listen(port);
 console.log("Listening on port:" + port);

@@ -20,7 +20,7 @@ angular.module('webAppApp')
                     {nombre:"lugarX",direccion:"por ahi",cantCampos:40,fechaSalida:"25/deb/2018"},
                     {nombre:"lugarX",direccion:"por ahi",cantCampos:40,fechaSalida:"25/deb/2018"}];
      */
-        vm.localhost = "192.168.0.17";
+        vm.localhost = "localhost";
         vm.getTour;
         vm.tour;
         function start() {

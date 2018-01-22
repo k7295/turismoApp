@@ -32,7 +32,7 @@ angular.module('webAppUsuarioApp')
     vm.idReservacion;
     vm.cuentaBancaria;
 
-    vm.localhost = "192.168.0.17";
+    vm.localhost = "localhost";
 
     function start() {
       console.log("entro a strart");
