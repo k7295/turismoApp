@@ -1,39 +1,62 @@
-<form role="form" id="add_Tour" ng-init="vm.start()">
+<form role="form" id="add_Tour" name="tour" ng-init="vm.start()">
     <h2 align="center">Agregar Excursion</h2>
 
 
     <div class="form-group">
         <label for="idNombre">Nombre del Tour</label>
-        <input type="text" class="form-control" id="idNombre" ng-model="vm.tour.nombre">
+        <input type="text" class="form-control" id="idNombre" name="nombreUsuario" ng-model="vm.tour.nombre" required>
+        <div class="alert alert-danger" role="alert" ng-show="tour.nombreUsuario.$touched && tour.nombreUsuario.$invalid">
+            <strong>Alerta!</strong> Se debe ingresar el nombre del tour
+        </div>
+
     </div>
 
     <div class="form-group">
         <label for="selectDestino">Destino</label>
-        <select class="form-control" id="selectDestino" ng-model="vm.selectDestino" ng-options="x.nombreDestino for x in vm.getDestino"></select>
-
+        <select class="form-control" id="selectDestino" name="selectDestino" ng-model="vm.selectDestino" ng-options="x.nombreDestino for x in vm.getDestino"
+            required></select>
+        <div class="alert alert-danger" role="alert" ng-show="tour.selectDestino.$touched && tour.selectDestino.$invalid">
+            <strong>Alerta!</strong> Se debe seleccionar un destino
+        </div>
     </div>
     <div class="form-group">
         <label for="selectGuia">Guia Turistica</label>
-        <select class="form-control" id="selectGuia" ng-model="vm.selectGuia" ng-options="x.nombre for x in vm.getGuia"></select>
+        <select class="form-control" id="selectGuia" name="selectGuia" ng-model="vm.selectGuia" ng-options="x.nombre for x in vm.getGuia"
+            required></select>
+        <div class="alert alert-danger" role="alert" ng-show="tour.selectGuia.$touched && tour.selectGuia.$invalid">
+            <strong>Alerta!</strong> Debe ingresar nombre del guia
+        </div>
     </div>
 
-    
+
 
     <div class="form-group">
+        <label for="example-datetime-local-input" class="col-2 col-form-label">Fecha y Hora de Salida (yyyy-mm-dd hh:mm)</label>
+        <input class="form-control" type="text" name="fecha" placeholder="2018-01-18 13:00" id="example-datetime-local-input" ng-model="vm.tour.fecha"
+            required>
+        <div class="alert alert-danger" role="alert" ng-show="tour.fecha.$touched && tour.fecha.$invalid">
+            <strong>Alerta!</strong>Debe ingresar fecha y hora de la salida del tour
+        </div>
 
-            <label for="example-datetime-local-input" class="col-2 col-form-label">Fecha y Hora de Salida (yyyy-mm-dd hh:mm)</label>
-            <input class="form-control" type="text" placeholder="2018-01-18 13:00" id="example-datetime-local-input" ng-model="vm.tour.fecha">
-    
     </div>
     <div class="form-group">
         <label for="example-datetime-local-input" class="col-2 col-form-label">Fechas para cuotas</label>
         <div>
             <label for="fechaCuota1">Fecha y Hora para primera cuota (yyyy-mm-dd hh:mm)</label>
-            <input class="form-control" type="text" placeholder="2018-01-18 13:00" id="fechaCuota1" ng-model="vm.tour.fechaCuota1">
+            <input class="form-control" type="text" name="primeraFecha" placeholder="2018-01-18 13:00" id="fechaCuota1" ng-model="vm.tour.fechaCuota1"
+                required>
+            <div class="alert alert-danger" role="alert" ng-show="tour.primeraFecha.$touched && tour.primeraFecha.$invalid">
+                <strong>Alerta!</strong>Debe ingresar la primer fecha de corte para pagar cuota
+            </div>
+
         </div>
         <div>
             <label for="fechaCuota2">Fecha y Hora para segunda cuota (yyyy-mm-dd hh:mm)</label>
-            <input class="form-control" type="text" placeholder="2018-01-18 13:00" id="fechaCuota2" ng-model="vm.tour.fechaCuota2">
+            <input class="form-control" type="text" name="segundaFecha" placeholder="2018-01-18 13:00" id="fechaCuota2" ng-model="vm.tour.fechaCuota2"
+                required>
+            <div class="alert alert-danger" role="alert" ng-show="tour.segundaFecha.$touched && tour.segundaFecha.$invalid">
+                <strong>Alerta!</strong>Debe ingresar la ultimaprimer fecha de corte para pagar cuota
+            </div>
         </div>
     </div>
     <div class="form-group">
@@ -41,17 +64,22 @@
         <div class="row">
             <div class="col-md-4">
                 <label for="precioNino">Nino</label>
-                <input type="number" class="form-control " id="precioNino" placeholder="$" ng-model="vm.tour.precioNino">
+                <input type="number" class="form-control " id="precioNino" name="precioNino" placeholder="$" ng-model="vm.tour.precioNino"
+                    required>
+                <span ng-show="tour.precioNino.$touched && tour.precioNino.$invalid">Debe ingresar el precio de reservacion de un nino</span>
 
             </div>
             <div class="col-md-4">
                 <label for="precioAdultos">Adultos</label>
-                <input type="number" class="form-control " id="precioAdultos" placeholder="$" ng-model="vm.tour.precioAdultos">
+                <input type="number" class="form-control " id="precioAdultos" name="precioAdulto" placeholder="$" ng-model="vm.tour.precioAdultos"
+                    required>
+                <span ng-show="tour.precioAdulto.$touched && tour.precioAdulto.$invalid">Debe ingresar el precio de reservacion de un adulto</span>
             </div>
             <div class="col-md-4">
                 <label for="precioAdultosMay">Adultos Mayores(65+)</label>
-                <input type="number" class="form-control " id="precioAdultosMay" placeholder="$" ng-model="vm.tour.precioMayores">
-
+                <input type="number" class="form-control " id="precioAdultosMay" name="precioAdultoM" placeholder="$" ng-model="vm.tour.precioMayores"
+                    required>
+                <span ng-show="tour.precioAdultoM.$touched && tour.precioAdultoM.$invalid">Debe ingresar el precio de reservacion de un adulto mayor</span>
             </div>
 
         </div>
@@ -60,19 +88,28 @@
 
 
     <div class="form-group">
-        <label for="idCuentaBancaria">Cuenta Bancaria</label>
-        <input type="text" class="form-control" id="idCuentaBancaria" ng-model="vm.tour.cuenta">
+        <label for="idCuentaBancaria">Cuenta Bancaria (numero de cuenta y Banco)</label>
+        <input type="text" class="form-control" id="idCuentaBancaria" name="cuentaBancaria" placeholder="xxxxxxx BAC" ng-model="vm.tour.cuenta"
+            required>
+        <div class="alert alert-danger" role="alert" ng-show="tour.cuentaBancaria.$touched && tour.cuentaBancaria.$invalid">
+            <strong>Alerta!</strong>Debe ingresar la cuenta bancaria y el respectivo banco al que se debe depositar
+        </div>
     </div>
 
     <div class="form-group">
         <label for="idSalida">Lugar de Salida</label>
-        <input type="text" class="form-control" id="idSalida" ng-model="vm.tour.lugarSalida">
+        <input type="text" class="form-control" id="idSalida" name="lugarSalida" ng-model="vm.tour.lugarSalida" required>
+        <div class="alert alert-danger" role="alert" ng-show="tour.lugarSalida.$touched && tour.lugarSalida.$invalid">
+            <strong>Alerta!</strong>Se debe ingresar el punto de salida del tour
+        </div>
+
+
     </div>
 
     <div class="form-group">
         <label for="idSalidaExtra">Lugar de Salida Extra (opcionales)</label>
-        <input type="text" class="form-control" id="idSalidaExtra1" ng-model="vm.tour.lugarSalida2">
-        <input type="text" class="form-control" id="idSalidaExtra2" ng-model="vm.tour.lugarSalida3">
+        <input type="text" class="form-control" id="idSalidaExtra1" name="lugarSalida1" ng-model="vm.tour.lugarSalida2">
+        <input type="text" class="form-control" id="idSalidaExtra2" name="lugarSalida2" ng-model="vm.tour.lugarSalida3">
     </div>
     <div class="form-group">
         <label for="idAlimentos">Alimentos Incluidos</label>
@@ -121,8 +158,12 @@
     <div class="form-group">
         <label for="idAlimentos">Seleccionar Vehiculo para Tour</label>
         <div>
-            <label for="selectFlotilla">Placas  y campos de Vehiculos Disponibles</label>
-            <select class="form-control" id="selectFlotilla" ng-model="vm.selectFlotilla" ng-options="'placa: ' +x.idVehiculo + ' campos: '  + x.campos for x in vm.getVehiculo"></select>
+            <label for="selectFlotilla">Placas y campos de Vehiculos Disponibles</label>
+            <select class="form-control" id="selectFlotilla" name="flotilla" ng-model="vm.selectFlotilla" ng-options="'placa: ' +x.idVehiculo + ' campos: '  + x.campos for x in vm.getVehiculo"
+                required></select>
+                <div class="alert alert-danger" role="alert" ng-show="tour.flotilla.$touched && tour.flotilla.$invalid">
+                    <strong>Alerta!</strong>Se debe asignar una flotilla
+                </div>
         </div>
 
     </div>

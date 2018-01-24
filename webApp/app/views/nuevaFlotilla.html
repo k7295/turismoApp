@@ -1,70 +1,88 @@
-<form role="form" id="form_AddFlotillas" ng-init="vm.start()">
-        <h2 align="center">Datos de Buses</h2>
-        
-        <div class="form-group">
-            <label for="idCedChofer">Chofer</label>
-            <select class="form-control" id="idCedChofer"   ng-model="vm.chofer" ng-options="x.nombre for x in vm.getChofer" ></select>
-        </div>
+<form role="form" id="form_AddFlotillas" name="flotilla" ng-init="vm.start()">
+    <h2 align="center">Datos de Buses</h2>
 
-        <div class="form-group">
-            <label for="idFlotilla">Placa de Flotilla</label>
-            <input type="text" class="form-control" id="idFlotilla" ng-model="vm.flotilla.placa">
-        </div>
-    
-        <div class="form-group">
-            <label for="selectMarca">Marca del Vehiculo</label>
-            <select class="form-control" id="selectMarca" ng-model="vm.marca" ng-options="x.marca for x in vm.getMarca" ></select>
-        </div>
-        <div class="form-group">
-            <label for="selectTipoVehiculo">Tipo de Vehiculo</label>
-            <select class="form-control" id="selectTipoVehiculo" ng-model="vm.tipoVehiculo" ng-options="x.tipoVehiculo for x in vm.getTipoVehiculo" ></select>
-        </div>
-        <div class="form-group">
-            <label for="idCantAsientos">Cantidad de asientos</label>
-            <input type="number" class="form-control" id="idCantAsientos" ng-model="vm.flotilla.capacidad">
-        </div>
-    
-        <div class="form-group">
-    
-            <div class="wrapper" id="wrapper">
-    
-                <div class="form-check">
-                    <label>
-                        <input type="checkbox" name="check" ng-model="vm.flotilla.transporteDisp">
-                        <span class="label-text">Transporte Disponible</span>
-                    </label>
-                </div>
-    
-            </div>
-        </div>
-    
-        <div class="form-group">
-            <label for="idFlotilla">Servicios Disponibles</label>
-    
-            <div class="wrapper" id="wrapper" ng-repeat="x in vm.servicios" >
-    
-                <div class="form-check">
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                                <label>
-                                        <input value="{{x}}" type="checkbox" name="check" id="selectServicios">
-                                        <span class="label-text">{{x}}</span>
-                                    </label>
-                        </li>
-                    </ul>
-                    
-                </div>
-    
-            </div>
-        </div>
-    
-    
-    
-    </form>
-    
-    <div class="row grupoBotones">
-        <div class="col-sm-offset-1 col-sm-10" align="center">
-            <a type="button" class="btn btn-default btn_back" ng-href="#!/listaFlotilla">Atras</a>
-            <a ng-click="vm.addFlotilla()" type="button" class="btn btn-default btn_acept" >Aceptar</a>
+    <div class="form-group">
+        <label for="idCedChofer">Chofer</label>
+        <select class="form-control" id="idCedChofer" name="chofer" ng-model="vm.chofer" ng-options="x.nombre for x in vm.getChofer"
+            required></select>
+        <div class="alert alert-danger" role="alert" ng-show="flotilla.chofer.$touched && flotilla.chofer.$invalid">
+            <strong>Alerta!</strong>Se debe seleccionar un chofer para la flotilla
         </div>
     </div>
+
+    <div class="form-group">
+        <label for="idFlotilla">Placa de Flotilla</label>
+        <input type="text" class="form-control" id="idFlotilla" name="placa" ng-model="vm.flotilla.placa" required>
+        <div class="alert alert-danger" role="alert" ng-show="flotilla.placa.$touched && flotilla.placa.$invalid">
+            <strong>Alerta!</strong>Se debe ingresar la placa de la flotilla
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="selectMarca">Marca del Vehiculo</label>
+        <select class="form-control" id="selectMarca" name="marca" ng-model="vm.marca" ng-options="x.marca for x in vm.getMarca"
+            required></select>
+        <div class="alert alert-danger" role="alert" ng-show="flotilla.marca.$touched && flotilla.marca.$invalid">
+            <strong>Alerta!</strong>Se debe seleccionar la marca de la flotilla
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="selectTipoVehiculo">Tipo de Vehiculo</label>
+        <select class="form-control" id="selectTipoVehiculo" name="tipoV" ng-model="vm.tipoVehiculo" ng-options="x.tipoVehiculo for x in vm.getTipoVehiculo"
+            required></select>
+        <div class="alert alert-danger" role="alert" ng-show="flotilla.tipoV.$touched && flotilla.tipoV.$invalid">
+            <strong>Alerta!</strong>Se debe ingresar el tipo del vehiculo
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="idCantAsientos">Cantidad de asientos</label>
+        <input type="number" class="form-control" id="idCantAsientos" name="campos" ng-model="vm.flotilla.capacidad">
+        <div class="alert alert-danger" role="alert" ng-show="flotilla.campos.$touched && flotilla.campos.$invalid">
+            <strong>Alerta!</strong>Se debe ingresar la cantidad de campos que tiene la flotilla
+        </div>
+    </div>
+
+    <div class="form-group">
+
+        <div class="wrapper" id="wrapper">
+
+            <div class="form-check">
+                <label>
+                    <input type="checkbox" name="check" ng-model="vm.flotilla.transporteDisp">
+                    <span class="label-text">Transporte Disponible</span>
+                </label>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="idFlotilla">Servicios Disponibles</label>
+
+        <div class="wrapper" id="wrapper" ng-repeat="x in vm.servicios">
+
+            <div class="form-check">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <label>
+                            <input value="{{x}}" type="checkbox" name="check" id="selectServicios">
+                            <span class="label-text">{{x}}</span>
+                        </label>
+                    </li>
+                </ul>
+
+            </div>
+
+        </div>
+    </div>
+
+
+
+</form>
+
+<div class="row grupoBotones">
+    <div class="col-sm-offset-1 col-sm-10" align="center">
+        <a type="button" class="btn btn-default btn_back" ng-href="#!/listaFlotilla">Atras</a>
+        <a ng-click="vm.addFlotilla()" type="button" class="btn btn-default btn_acept">Aceptar</a>
+    </div>
+</div>

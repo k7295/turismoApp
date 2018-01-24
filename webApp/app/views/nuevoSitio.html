@@ -1,23 +1,35 @@
-<form role="form" id="add_Sitios" ng-init="vm.start()">
+<form role="form" id="add_Sitios" name="sitio" ng-init="vm.start()">
     <h2 align="center">Agregar Sitio Turistico</h2>
 
     <div class="form-group">
         <label for="idNombre">Nombre</label>
-        <input type="text" class="form-control" id="idNombre" ng-model="vm.sitio.nombre">
+        <input type="text" class="form-control" id="idNombre" name="nombreSitio" ng-model="vm.sitio.nombre" required>
+        <div class="alert alert-danger" role="alert" ng-show="sitio.nombreSitio.$touched && sitio.nombreSitio.$invalid">
+            <strong>Alerta!</strong>Se debe ingresar el nombre del destino
+        </div>
     </div>
 
     <div class="form-group">
         <label for="idDireccion">Dirrecion del lugar</label>
-        <input type="text" class="form-control" id="idDireccion" ng-model="vm.sitio.dir">
+        <input type="text" class="form-control" id="idDireccion" name="direccion" ng-model="vm.sitio.dir" required>
+        <div class="alert alert-danger" role="alert" ng-show="sitio.direccion.$touched && sitio.direccion.$invalid">
+            <strong>Alerta!</strong>Se debe dar la direccion del destino
+        </div>
 
     </div>
     <div class="form-group">
         <label for="selectCategoria">Categoria</label>
-        <select class="form-control" id="selectCategoria" ng-model="vm.selectCategoria" ng-options="x.categoria for x in vm.getCategoria"></select>
+        <select class="form-control" id="selectCategoria" name="categoria" ng-model="vm.selectCategoria" ng-options="x.categoria for x in vm.getCategoria" required></select>
+        <div class="alert alert-danger" role="alert" ng-show="sitio.categoria.$touched && sitio.categoria.$invalid">
+            <strong>Alerta!</strong>Se debe seleccionar un chofer para la flotilla
+        </div>
     </div>
     <div class="form-group">
             <label for="comment">Descripcion:</label>
-            <textarea class="form-control" rows="5" id="comment" ng-model="vm.sitio.descripcion"></textarea>
+            <textarea class="form-control" rows="5" id="comment" name="desc" ng-model="vm.sitio.descripcion" required></textarea>
+            <div class="alert alert-danger" role="alert" ng-show="sitio.desc.$touched && sitio.desc.$invalid">
+                <strong>Alerta!</strong>Se debe dar una descripcion del lugar
+            </div>
           </div>
 
 </form>
