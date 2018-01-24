@@ -37,7 +37,11 @@ font-size: 40px;
   background-color: black
 }
 
-
+.aboutUs{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
 /*............................................................................*/
 /* costum de los botones menu*/
 /*............................................................................*/

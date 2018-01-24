@@ -25,6 +25,11 @@ angular
         controller: 'MainCtrl',
         controllerAs: 'vm'
       })
+      .when('/about', {
+        templateUrl: 'views/about.html',
+        controller: 'AboutCtrl',
+        controllerAs: 'about'
+      })
       .when('/tour/:NombreExcursion', {
         templateUrl: 'views/tour.html',
         controller: 'tourCtrl',
