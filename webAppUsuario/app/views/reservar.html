@@ -4,18 +4,20 @@
         <div align="right">
             <a type="submit" class="btn btn-default btn_monto" id="btn_comprobante" ng-href="#!/cancelar">Cancelar Montos/Viaje</a>
         </div>
-        <form role="form" id="form_Tour" ng-controller="reservarCtrl" ng-init="vm.start()">
+        <form role="form" id="form_Tour" name="form_Tour" ng-controller="reservarCtrl" ng-init="vm.start()">
             <h2 align="center">Realizar Reservacion</h2>
 
             <div class="form-group">
                 <div class="row">
                     <div class="col-md-6">
                         <label for="nombreCliente">Nombre</label>
-                        <input class="form-control" type="text" id="nombreCliente" ng-model="vm.reporte.nombre">
+                        <input class="form-control" type="text" name="nombreCliente" id="nombreCliente" ng-model="vm.reporte.nombre" required>
+                        <span ng-show="form_Tour.nombreCliente.$touched && form_Tour.nombreCliente.$invalid " >Ingresar el nombre del cliente que realizara la reservacion</span>
                     </div>
                     <div class="col-md-6">
                         <label for="primerApellido">Apellidos</label>
-                        <input class="form-control" type="text" id="primerApellido" ng-model="vm.reporte.apellido">
+                        <input class="form-control" type="text" id="primerApellido" name="primerApellido" ng-model="vm.reporte.apellido" required>
+                        <span ng-show="form_Tour.primerApellido.$touched && form_Tour.primerApellido.$invalid" >Ingresar los apellidos del cliente que realizara la reservacion</span>
                     </div>
                 </div>
 
@@ -25,23 +27,27 @@
             <div class="form-group">
                 <label for="example-tel-input" class="col-2 col-form-label">Telefono</label>
                 <div class="col-10">
-                    <input class="form-control" type="tel" value="1-(555)-555-5555" id="example-tel-input" ng-model="vm.reporte.tel">
+                    <input class="form-control" type="tel" value="1-(555)-555-5555" name="tel" id="example-tel-input" ng-model="vm.reporte.tel" required>
+                    <span ng-show="form_Tour.tel.$touched && form_Tour.tel.$invalid" >Ingresar el numero de contacto</span>
+
                 </div>
             </div>
             <div class="form-group">
                 <label for="selectSitio">Excursion</label>
-                <select class="form-control" id="selectSitio" ng-model="vm. selectSitio" ng-options="x.NombreExcursion for x in vm.getExcursiones"></select>
+                <select class="form-control" id="selectSitio" name="selectSitio" ng-model="vm. selectSitio" ng-options="x.NombreExcursion for x in vm.getExcursiones" required></select>
+                <span ng-show="form_Tour.selectSitio.$touched && form_Tour.selectSitio.$invalid" >Debe seleccionar una opcion</span>
             </div>
             <div class="form-group">
                 <label for="selectCampos">Cantidad de Campos por reservar</label>
-                <input class="form-control" type="number" id="selectCampos" ng-model="vm.reporte.campos">
+                <input class="form-control" type="number" name="camposR" id="selectCampos" ng-model="vm.reporte.campos" required>
+                <span ng-show="form_Tour.camposR.$touched && form_Tour.camposR.$invalid" >Ingresar la cantidad de campos por reservar</span>
             </div>
 
         </form>
 
         <div class="row grupoBotones">
             <div class="col-sm-offset-1 col-sm-10" align="center">
-                <a type="button" class="btn btn-default btn_acept" data-toggle="modal" data-target="#myModal" ng-click="vm.addReporte()">Aceptar</a>
+                <a class="btn btn-default btn_acept" data-toggle="modal" data-target="#myModal" ng-click="vm.addReporte()">Aceptar</a>
 
             </div>
             <!-- Modal -->

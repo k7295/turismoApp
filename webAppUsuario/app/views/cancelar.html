@@ -3,12 +3,13 @@
 
         <div class="infoTour">
 
-            <form role="form" id="form_Tour" ng-controller="reservarCtrl" ng-init="vm.start()">
+            <form role="form" id="form_Tour" name="form_Tour" ng-controller="reservarCtrl" ng-init="vm.start()">
                 <h2 align="center">Cancelar Monto</h2>
 
                 <div class="form-group">
                     <label for="idReservacion">ID Reservacion</label>
-                    <input class="form-control" type="number" id="idReservacion" ng-model="vm.idReservacion">
+                    <input class="form-control" type="number" id="idReservacion" name="idReservacion" ng-model="vm.idReservacion" required>
+                    <span ng-show="form_Tour.idReservacion.$touched && form_Tour.idReservacion.$invalid" >Ingresar id de reservacion</span>
                 </div>
 
                 <div class="column" id="columnaPic"></div>
@@ -34,12 +35,13 @@
 
         <div class="infoTour">
 
-            <form role="form" id="form_Tour" ng-controller="reservarCtrl" ng-init="vm.start()">
+            <form role="form" id="form_Tour" name="form_TourC" ng-controller="reservarCtrl" ng-init="vm.start()">
                 <h2 align="center">Cancelar Reservacion</h2>
 
                 <div class="form-group">
                     <label for="idReservacion">ID Reservacion que desea cancelar</label>
-                    <input class="form-control" type="number" id="idReservacion" ng-model="vm.idReservacionCancelar">
+                    <input class="form-control" type="number" id="idReservacion"  name="idReservacion" ng-model="vm.idReservacionCancelar" required>
+                    <span ng-show="form_TourC.idReservacion.$touched && form_TourC.idReservacion.$invalid" >Ingresar id de reservacion</span>
                 </div>
 
             </form>
