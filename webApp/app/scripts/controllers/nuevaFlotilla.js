@@ -31,7 +31,7 @@ angular.module('webAppApp')
         vm.getChofer;
         //192.168.0.20:3000
 
-        vm.localhost = "192.168.0.13";
+        vm.localhost = "localhost";
 
 
 
